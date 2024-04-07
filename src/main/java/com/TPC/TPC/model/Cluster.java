@@ -10,10 +10,12 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.Data;
 
 import java.sql.Clob;
 
 @Entity
+@Data
 @Table(name = "tb_cluster")
 public class Cluster {
 

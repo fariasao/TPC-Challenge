@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -31,14 +33,14 @@ public class CampanhasController {
 
     // Criar uma nova campanha
     @PostMapping
-    public ResponseEntity<Campanhas> createCampanha(@RequestBody Campanhas campanha) {
+    public ResponseEntity<Campanhas> createCampanha(@Valid @RequestBody Campanhas campanha) {
         Campanhas savedCampanha = campanhasRepository.save(campanha);
         return new ResponseEntity<>(savedCampanha, HttpStatus.CREATED);
     }
 
     // Atualizar uma campanha existente
     @PutMapping("/{campanhaId}")
-    public ResponseEntity<Campanhas> updateCampanha(@PathVariable Integer campanhaId, @RequestBody Campanhas campanhaDetails) {
+    public ResponseEntity<Campanhas> updateCampanha(@PathVariable Integer campanhaId, @Valid @RequestBody Campanhas campanhaDetails) {
         return campanhasRepository.findById(campanhaId)
                 .map(campanha -> {
                     campanha.setMasterId(campanhaDetails.getMasterId());

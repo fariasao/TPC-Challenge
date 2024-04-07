@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -32,14 +33,14 @@ public class UsersController {
 
     // Criar um novo usuário
     @PostMapping
-    public ResponseEntity<Users> createUser(@RequestBody Users user) {
+    public ResponseEntity<Users> createUser(@Valid @RequestBody Users user) {
         Users savedUser = usersRepository.save(user);
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
 
     // Atualizar um usuário existente
     @PutMapping("/{id}")
-    public ResponseEntity<Users> updateUser(@PathVariable Integer id, @RequestBody Users userDetails) {
+    public ResponseEntity<Users> updateUser(@PathVariable Integer id, @Valid @RequestBody Users userDetails) {
         return usersRepository.findById(id)
                 .map(user -> {
                     user.setNome(userDetails.getNome());

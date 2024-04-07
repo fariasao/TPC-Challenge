@@ -2,6 +2,8 @@ package com.TPC.TPC.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
@@ -15,7 +17,7 @@ import java.sql.Clob;
 @Table(name = "tb_cluster")
 public class Cluster {
 
-    @Id
+    @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "clusterid")
     private Integer clusterId;
 

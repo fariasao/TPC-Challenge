@@ -20,7 +20,7 @@ Banco de Dados:\
 ![Banco de Dados](./images/DB_TPC.png)
 
 ## Link para vídeo com a proposta tecnológica
-
+[![Vídeo TPC](http://img.youtube.com/vi/D7EWoFBEPvs/0.jpg)](http://www.youtube.com/watch?v=D7EWoFBEPvs)
 
 ## Listagem de Endpoints
 

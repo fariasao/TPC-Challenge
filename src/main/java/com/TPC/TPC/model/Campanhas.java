@@ -23,7 +23,7 @@ public class Campanhas {
     @Column(name = "campanhaid")
     private Integer campanhaId;
 
-    @NotNull
+    @NotNull (message =  "{campanhas.masterid.notnull}")
     @ManyToOne
     @JoinColumn(name = "masterid", referencedColumnName = "masterid")
     private UserMaster masterId;

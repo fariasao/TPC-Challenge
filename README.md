@@ -1,11 +1,12 @@
 # - NOME DA APLICAÇÃO -
 
 ## Sumário
-- [Integrantes](#integrantes)
-- [Instruções para uso da aplicação](#instruções-para-uso-da-aplicação)
-- [Imagem dos diagramas de classe](#imagem-dos-diagramas-de-classe)
-- [Link para vídeo com a proposta tecnológica](#link-para-vídeo-com-a-proposta-tecnológica)
-- [Listagem de Endpoints](#listagem-de-endpoints)
+- [Integrantes;](#integrantes)
+- [Documentação completa;](#documentação-completa)
+- [Instruções para uso da aplicação;](#instruções-para-uso-da-aplicação)
+- [Imagem dos diagramas de classe;](#imagem-dos-diagramas-de-classe)
+- [Link para vídeo com a proposta tecnológica;](#link-para-vídeo-com-a-proposta-tecnológica)
+- [Listagem de Endpoints.](#listagem-de-endpoints)
 
 ## Integrantes
 - Beatriz Lucas - RM99104 (Responsável por atuar em Disruptive Architectures, Compliance & Quality Assurance e DevOps Tools & Cloud Computing);
@@ -13,6 +14,9 @@
 - Ewerton Gonçalves - RM98571 (Responsável por atuar em Mastering Relational and Non-Relational Database, Mobile App Development e DevOps Tools & Cloud Computing);
 - Guilherme Tantulli - RM97890 (Responsável por atuar em Compliance & Quality Assurance, Advanced Business Development with .NET e Mobile App Development);
 - Thiago Zupelli - RM99085 (Responsável por atuar em Disruptive Architectures, Advanced Business Development with .NET, Java Advanced e Mastering Relational and Non-Relational Database).
+
+## Documentação completa
+xfun::embed_file("TPC_JavaAdvanced_1stSprint.pdf")
 
 ## Instruções para uso da aplicação
 ### Iniciando a Aplicação

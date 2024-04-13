@@ -13,7 +13,11 @@ Assim, para acesso ao banco de dados, inicialmente no h2, é necessário utiliza
 Para acessar as urls com métodos específicos de cada classe, seguir para a parte [Endpoints](#listagem-de-endpoints).
 
 ## Imagem dos diagramas de classe
+UML:\
+![UML](./images/TPC-Challenge24v1.png)
 
+Banco de Dados:\
+![Banco de Dados](./images/DB_TPC.png)
 
 ## Link para vídeo com a proposta tecnológica
 

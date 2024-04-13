@@ -2,10 +2,10 @@
 
 ## Sumário
 - [Integrantes](#integrantes)
-- [Instruções para uso da aplicação](#instrucoes)
-- [Imagem dos diagramas de classe](#imagens)
-- [Link para vídeo com a proposta tecnológica](#video)
-- [Listagem de Endpoints](#listagem-endpoints)
+- [Instruções para uso da aplicação](#instruções-para-uso-da-aplicação)
+- [Imagem dos diagramas de classe](#imagem-dos-diagramas-de-classe)
+- [Link para vídeo com a proposta tecnológica](#link-para-vídeo-com-a-proposta-tecnológica)
+- [Listagem de Endpoints](#listagem-de-endpoints)
 
 ## Integrantes
 - Beatriz Lucas - RM99104 (Responsável por atuar em Disruptive Architectures, Compliance & Quality Assurance e DevOps Tools & Cloud Computing);

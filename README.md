@@ -1,5 +1,12 @@
 # - NOME DA APLICAÇÃO -
 
+## Sumário
+- [Integrantes](#integrantes)
+- [Instruções para uso da aplicação](#instrucoes)
+- [Imagem dos diagramas de classe](#imagens)
+- [Link para vídeo com a proposta tecnológica](#video)
+- [Listagem de Endpoints](#listagem-endpoints)
+
 ## Integrantes
 - Beatriz Lucas - RM99104 (Responsável por atuar em Disruptive Architectures, Compliance & Quality Assurance e DevOps Tools & Cloud Computing);
 - Enzo Farias - RM98792 (Responsável por atuar em Disruptive Architectures, Advanced Business Development with .NET, Java Advanced e Mobile App Development);

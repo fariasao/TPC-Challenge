@@ -54,8 +54,8 @@ Aqui estão exemplos de como interagir com cada tipo de recurso:
     
     ```bash
     POST http://localhost:8080/users
-    'Content-Type: application/json'
-    '{
+    -Header 'Content-Type: application/json'
+    -data '{
       "nome": "Enzo",
       "sobrenome": "Farias",
       "email": "john@example.com",
@@ -73,8 +73,8 @@ Aqui estão exemplos de como interagir com cada tipo de recurso:
     
     ```bash
     PUT http://localhost:8080/users/{id}
-    'Content-Type: application/json'
-    '{
+    -Header 'Content-Type: application/json'
+    -data '{
       "nome": "Enzo",
       "sobrenome": "Farias",
       "email": "updated@example.com",
@@ -116,8 +116,8 @@ Aqui estão exemplos de como interagir com cada tipo de recurso:
     
     ```bash
     POST http://localhost:8080/produtos
-    'Content-Type: application/json'
-    '{
+    -Header 'Content-Type: application/json'
+    -data '{
       "categoriaId": 1,
       "nome": "Cafeteira Elétrica",
       "descricao": "Cafeteira com capacidade de 10 xícaras",
@@ -132,8 +132,8 @@ Aqui estão exemplos de como interagir com cada tipo de recurso:
     
     ```bash
     PUT http://localhost:8080/produtos/{pdvId}
-    'Content-Type: application/json'
-    '{
+    -Header: 'Content-Type: application/json'
+    -data '{
       "categoriaId": 1,
       "nome": "Cafeteira Elétrica - Nova Geração",
       "descricao": "Nova cafeteira atualizada com capacidade para 15 xícaras",

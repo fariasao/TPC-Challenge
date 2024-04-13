@@ -16,7 +16,7 @@
 - Thiago Zupelli - RM99085 (Responsável por atuar em Disruptive Architectures, Advanced Business Development with .NET, Java Advanced e Mastering Relational and Non-Relational Database).
 
 ## Documentação completa
-![PDF da documentação](TPC_JavaAdvanced_1stSprint.pdf)
+[PDF com a documentação completa.](TPC_JavaAdvanced_1stSprint.pdf)
 
 ## Instruções para uso da aplicação
 ### Iniciando a Aplicação

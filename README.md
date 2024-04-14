@@ -21,6 +21,7 @@
 
 ## Cronograma primeira sprint
 ![Cronograma](./images/Cronograma1stSprint.png)
+[Link para o arquivo completo.](Cronograma_TPC_Challenge_1Sprint.xlsx)
 
 ## Instruções para uso da aplicação
 ### Iniciando a Aplicação
@@ -219,7 +220,7 @@ Banco de Dados:\
 ![Banco de Dados](./images/DB_TPC.png)
 
 ## Link para vídeo com a proposta tecnológica
-[![Vídeo TPC](http://img.youtube.com/vi/D7EWoFBEPvs/0.jpg)](http://www.youtube.com/watch?v=D7EWoFBEPvs)
+[![Vídeo TPC](http://img.youtube.com/vi/3V5XxM7scrQ/0.jpg)](http://www.youtube.com/watch?v=3V5XxM7scrQ)
 
 ## Listagem de Endpoints
 ### Endpoints para Users:

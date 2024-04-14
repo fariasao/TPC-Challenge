@@ -227,7 +227,7 @@ GET /users - Buscar todos os usuários.\
 GET /users/{id} - Buscar um usuário pelo ID.\
 POST /users - Criar um novo usuário.\
 PUT /users/{id} - Atualizar um usuário existente.\
-DELETE /users/{id} - Deletar um usuário pelo ID.\
+DELETE /users/{id} - Deletar um usuário pelo ID.
 
 ### Endpoints para UserMaster:
 GET /usermasters - Buscar todos os usuários mestres.\

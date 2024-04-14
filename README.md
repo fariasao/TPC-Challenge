@@ -1,4 +1,4 @@
-# - NOME DA APLICAÇÃO -
+# LesSoft
 
 ## Sumário
 - [Integrantes;](#integrantes)

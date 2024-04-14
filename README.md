@@ -214,7 +214,7 @@ Aqui estão exemplos de como interagir com cada tipo de recurso:
 
 ## Imagem dos diagramas de classe
 UML:\
-![UML](./images/TPC-Challenge24v1.png)
+![UML](./images/TPC-Challenge24v2.png)
 
 Banco de Dados:\
 ![Banco de Dados](./images/DB_TPC.png)

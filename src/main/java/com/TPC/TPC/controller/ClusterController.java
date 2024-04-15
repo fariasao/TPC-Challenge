@@ -25,9 +25,9 @@ public class ClusterController {
     }
 
     // Buscar um cluster pelo ID
-    @GetMapping("/{clusterId}")
-    public ResponseEntity<Cluster> getClusterById(@PathVariable Integer clusterId) {
-        return clusterRepository.findById(clusterId)
+    @GetMapping("/{clusterID}")
+    public ResponseEntity<Cluster> getClusterById(@PathVariable Integer clusterID) {
+        return clusterRepository.findById(clusterID)
                 .map(cluster -> ResponseEntity.ok().body(cluster))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
@@ -40,9 +40,9 @@ public class ClusterController {
     }
 
     // Atualizar um cluster existente
-    @PutMapping("/{clusterId}")
-    public ResponseEntity<Cluster> updateCluster(@PathVariable Integer clusterId, @Valid @RequestBody Cluster clusterDetails) {
-        return clusterRepository.findById(clusterId)
+    @PutMapping("/{clusterID}")
+    public ResponseEntity<Cluster> updateCluster(@PathVariable Integer clusterID, @Valid @RequestBody Cluster clusterDetails) {
+        return clusterRepository.findById(clusterID)
                 .map(cluster -> {
                     cluster.setName(clusterDetails.getName());
                     cluster.setDescricao(clusterDetails.getDescricao());
@@ -52,9 +52,9 @@ public class ClusterController {
     }
 
     // Deletar um cluster
-    @DeleteMapping("/{clusterId}")
-    public ResponseEntity<?> deleteCluster(@PathVariable Integer clusterId) {
-        return clusterRepository.findById(clusterId)
+    @DeleteMapping("/{clusterID}")
+    public ResponseEntity<?> deleteCluster(@PathVariable Integer clusterID) {
+        return clusterRepository.findById(clusterID)
                 .map(cluster -> {
                     clusterRepository.delete(cluster);
                     return ResponseEntity.ok().build();

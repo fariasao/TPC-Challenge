@@ -24,9 +24,9 @@ public class UsersController {
     }
 
     // Buscar um usuário pelo ID
-    @GetMapping("/{id}")
-    public ResponseEntity<Users> getUserById(@PathVariable Integer id) {
-        return usersRepository.findById(id)
+    @GetMapping("/{usersID}")
+    public ResponseEntity<Users> getUserById(@PathVariable Integer usersID) {
+        return usersRepository.findById(usersID)
                 .map(user -> ResponseEntity.ok(user))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
@@ -39,9 +39,9 @@ public class UsersController {
     }
 
     // Atualizar um usuário existente
-    @PutMapping("/{id}")
-    public ResponseEntity<Users> updateUser(@PathVariable Integer id, @Valid @RequestBody Users userDetails) {
-        return usersRepository.findById(id)
+    @PutMapping("/{usersID}")
+    public ResponseEntity<Users> updateUser(@PathVariable Integer usersID, @Valid @RequestBody Users userDetails) {
+        return usersRepository.findById(usersID)
                 .map(user -> {
                     user.setNome(userDetails.getNome());
                     user.setSobrenome(userDetails.getSobrenome());
@@ -51,16 +51,16 @@ public class UsersController {
                     user.setEndereco(userDetails.getEndereco());
                     user.setNumero(userDetails.getNumero());
                     user.setComplemento(userDetails.getComplemento());
-                    user.setActive(userDetails.getActive());
+                    user.setAtivo(userDetails.isAtivo());
                     final Users updatedUser = usersRepository.save(user);
                     return ResponseEntity.ok(updatedUser);
                 }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     // Deletar um usuário
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Integer id) {
-        return usersRepository.findById(id)
+    @DeleteMapping("/{usersID}")
+    public ResponseEntity<Void> deleteUser(@PathVariable Integer usersID) {
+        return usersRepository.findById(usersID)
                 .map(user -> {
                     usersRepository.delete(user);
                     return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);

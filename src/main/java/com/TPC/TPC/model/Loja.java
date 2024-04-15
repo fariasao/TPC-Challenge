@@ -18,30 +18,30 @@ public class Loja {
     
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "pdvid")
-    private Integer pdvId;
+    private Integer pdvID;
 
-    @NotBlank
-    @Size(max = 255)
+    @NotBlank (message = "{loja.nomeloja.notnull}")
+    @Size(max = 255, message = "{loja.nomeloja.size}")
     @Column(name = "nomeloja")
     private String nomeLoja;
 
-    @NotBlank
-    @Size(max = 255)
+    @NotBlank (message = "{loja.endereco.notnull}")
+    @Size(max = 255, message = "{loja.endereco.size}")
     @Column(name = "endereco")
     private String endereco;
 
-    @NotNull
+    @NotNull (message = "{loja.numero.notnull}")
     @Column(name = "numero")
     private Integer numero;
 
-    @Size(max = 50)
+    @Size(max = 50, message = "{loja.complemento.size}")
     @Column(name = "complemento")
     private String complemento;
 
-    @Size(max = 50)
+    @Size(max = 9, message = "{loja.cep.size}")
     @Column(name = "cep")
     private String cep;
 
     @Column(name = "active")
-    private Integer active;
+    private boolean active;
 }

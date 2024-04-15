@@ -23,23 +23,23 @@ public class Compras {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "compraid")
-    private Integer compraId;
+    private Integer compraID;
 
-    @NotNull
+    @NotNull (message = "{compras.usersid.notnull}")
     @ManyToOne
-    @JoinColumn(name = "userid", referencedColumnName = "id")
-    private Users user;
+    @JoinColumn(name = "usersid", referencedColumnName = "usersid")
+    private Users usersID;
 
-    @NotNull
+    @NotNull (message = "{compras.pdvid.notnull}")
     @ManyToOne
     @JoinColumn(name = "pdvid", referencedColumnName = "pdvid")
-    private Loja loja;
+    private Loja pdvID;
 
-    @NotNull
+    @NotNull (message = "{compras.valor.notnull}")
     @Column(name = "valor")
     private BigDecimal valor;
 
-    @NotNull
+    @NotNull (message = "{compras.datacompra.notnull}")
     @Temporal(TemporalType.DATE)
     @Column(name = "datacompra")
     private Date dataCompra;

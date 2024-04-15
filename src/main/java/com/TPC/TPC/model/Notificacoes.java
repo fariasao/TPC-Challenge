@@ -7,7 +7,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -22,24 +24,25 @@ import lombok.Data;
 public class Notificacoes {
     
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "mensagemid")
-    private Integer mensagemId;
+    @Column(name = "notificacoesid")
+    private Integer notificacoesID;
 
-    @NotNull
-    @Column(name = "pdvid")
-    private Integer pdvId;
+    @NotNull (message = "{notificacoes.pdvid.notnull}")
+    @ManyToOne
+    @JoinColumn(name = "pdvid", referencedColumnName = "pdvid")
+    private Loja pdvID;
 
-    @NotBlank
-    @Size(max = 255)
+    @NotBlank (message = "{notificacoes.titulo.notnull}")
+    @Size(max = 255, message = "{notificacoes.titulo.size}")
     @Column(name = "titulo")
     private String titulo;
 
     @Lob
-    @NotNull
+    @NotNull (message = "{notificacoes.mensagem.notnull}")
     @Column(name = "mensagem")
     private String mensagem;
 
-    @NotNull
+    @NotNull (message = "{notificacoes.dataenvio.notnull}")
     @Temporal(TemporalType.DATE)
     @Column(name = "dataenvio")
     private Date dataEnvio;

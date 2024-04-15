@@ -12,8 +12,6 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
-import java.sql.Clob;
-
 @Entity
 @Data
 @Table(name = "tb_cluster")
@@ -21,15 +19,15 @@ public class Cluster {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "clusterid")
-    private Integer clusterId;
+    private Integer clusterID;
 
-    @NotBlank
-    @Size(max = 255)
+    @NotBlank (message = "{cluster.name.notnull}")
+    @Size(max = 255, message = "{cluster.name.size}")
     @Column(name = "name")
     private String name;
 
-    @NotNull
+    @NotNull (message = "{cluster.descricao.notnull}")
     @Lob
     @Column(name = "descricao")
-    private Clob descricao;
+    private String descricao;
 }

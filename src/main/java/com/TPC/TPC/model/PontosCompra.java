@@ -13,23 +13,21 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name = "tb_comprapontos")
-public class CompraPontos {
+@Table(name = "tb_pontos_compra")
+public class PontosCompra {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "pedidoid")
-    private Integer pedidoId;
+    @Column(name = "pontoscompraid")
+    private Integer pontosCompraID;
 
-    @NotNull
+    @NotNull (message = "{pontoscompras.compraid.notnull}")
     @ManyToOne
-    @JoinColumn(name = "pdvid", referencedColumnName = "pdvid")
-    private Loja loja;
+    @JoinColumn(name = "compraid", referencedColumnName = "compraid")
+    private Compras compraID;
 
-    @NotNull
-    @Column(name = "itemid")
-    private Integer itemId;
+    @NotNull (message = "{pontoscompras.pointid.notnull}")
+    @ManyToOne
+    @JoinColumn(name = "pointid", referencedColumnName = "pointid")
+    private Pontos pointID;
 
-    @NotNull
-    @Column(name = "quantidade")
-    private Integer quantidade;
 }

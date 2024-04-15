@@ -24,9 +24,9 @@ public class CategoriasController {
     }
 
     // Buscar uma categoria pelo ID
-    @GetMapping("/{categoriaId}")
-    public ResponseEntity<Categorias> getCategoriaById(@PathVariable Integer categoriaId) {
-        return categoriasRepository.findById(categoriaId)
+    @GetMapping("/{categoriaID}")
+    public ResponseEntity<Categorias> getCategoriaById(@PathVariable Integer categoriaID) {
+        return categoriasRepository.findById(categoriaID)
                 .map(categoria -> ResponseEntity.ok(categoria))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
@@ -39,22 +39,22 @@ public class CategoriasController {
     }
 
     // Atualizar uma categoria existente
-    @PutMapping("/{categoriaId}")
-    public ResponseEntity<Categorias> updateCategoria(@PathVariable Integer categoriaId, @Valid @RequestBody Categorias categoriaDetails) {
-        return categoriasRepository.findById(categoriaId)
+    @PutMapping("/{categoriaID}")
+    public ResponseEntity<Categorias> updateCategoria(@PathVariable Integer categoriaID, @Valid @RequestBody Categorias categoriaDetails) {
+        return categoriasRepository.findById(categoriaID)
                 .map(categoria -> {
                     categoria.setNome(categoriaDetails.getNome());
                     categoria.setDescricao(categoriaDetails.getDescricao());
-                    categoria.setAtivo(categoriaDetails.getAtivo());
+                    categoria.setAtivo(categoriaDetails.isAtivo());
                     final Categorias updatedCategoria = categoriasRepository.save(categoria);
                     return ResponseEntity.ok(updatedCategoria);
                 }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     // Deletar uma categoria
-    @DeleteMapping("/{categoriaId}")
-    public ResponseEntity<?> deleteCategoria(@PathVariable Integer categoriaId) {
-        return categoriasRepository.findById(categoriaId)
+    @DeleteMapping("/{categoriaID}")
+    public ResponseEntity<?> deleteCategoria(@PathVariable Integer categoriaID) {
+        return categoriasRepository.findById(categoriaID)
                 .map(categoria -> {
                     categoriasRepository.delete(categoria);
                     return ResponseEntity.ok().build();

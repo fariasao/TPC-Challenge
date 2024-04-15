@@ -25,9 +25,9 @@ public class CreditController {
     }
 
     // Buscar um crédito pelo ID
-    @GetMapping("/{creditId}")
-    public ResponseEntity<Credit> getCreditById(@PathVariable Integer creditId) {
-        return creditRepository.findById(creditId)
+    @GetMapping("/{creditID}")
+    public ResponseEntity<Credit> getCreditById(@PathVariable Integer creditID) {
+        return creditRepository.findById(creditID)
                 .map(credit -> ResponseEntity.ok().body(credit))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
@@ -40,24 +40,23 @@ public class CreditController {
     }
 
     // Atualizar um crédito existente
-    @PutMapping("/{creditId}")
-    public ResponseEntity<Credit> updateCredit(@PathVariable Integer creditId, @Valid @RequestBody Credit creditDetails) {
-        return creditRepository.findById(creditId)
+    @PutMapping("/{creditID}")
+    public ResponseEntity<Credit> updateCredit(@PathVariable Integer creditID, @Valid @RequestBody Credit creditDetails) {
+        return creditRepository.findById(creditID)
                 .map(credit -> {
-                    credit.setCompraId(creditDetails.getCompraId());
                     credit.setValor(creditDetails.getValor());
                     credit.setDataCredito(creditDetails.getDataCredito());
                     credit.setDataExpiracao(creditDetails.getDataExpiracao());
-                    credit.setUtilizado(creditDetails.getUtilizado());
+                    credit.setUtilizado(creditDetails.isUtilizado());
                     Credit updatedCredit = creditRepository.save(credit);
                     return ResponseEntity.ok().body(updatedCredit);
                 }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     // Deletar um crédito
-    @DeleteMapping("/{creditId}")
-    public ResponseEntity<?> deleteCredit(@PathVariable Integer creditId) {
-        return creditRepository.findById(creditId)
+    @DeleteMapping("/{creditID}")
+    public ResponseEntity<?> deleteCredit(@PathVariable Integer creditID) {
+        return creditRepository.findById(creditID)
                 .map(credit -> {
                     creditRepository.delete(credit);
                     return ResponseEntity.ok().build();

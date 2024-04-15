@@ -24,9 +24,9 @@ public class CampanhasController {
     }
 
     // Buscar uma campanha pelo ID
-    @GetMapping("/{campanhaId}")
-    public ResponseEntity<Campanhas> getCampanhaById(@PathVariable Integer campanhaId) {
-        return campanhasRepository.findById(campanhaId)
+    @GetMapping("/{campanhaID}")
+    public ResponseEntity<Campanhas> getCampanhaById(@PathVariable Integer campanhaID) {
+        return campanhasRepository.findById(campanhaID)
                 .map(campanha -> ResponseEntity.ok(campanha))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
@@ -39,12 +39,12 @@ public class CampanhasController {
     }
 
     // Atualizar uma campanha existente
-    @PutMapping("/{campanhaId}")
-    public ResponseEntity<Campanhas> updateCampanha(@PathVariable Integer campanhaId, @Valid @RequestBody Campanhas campanhaDetails) {
-        return campanhasRepository.findById(campanhaId)
+    @PutMapping("/{campanhaID}")
+    public ResponseEntity<Campanhas> updateCampanha(@PathVariable Integer campanhaID, @Valid @RequestBody Campanhas campanhaDetails) {
+        return campanhasRepository.findById(campanhaID)
                 .map(campanha -> {
-                    campanha.setMasterId(campanhaDetails.getMasterId());
-                    campanha.setClusterId(campanhaDetails.getClusterId());
+                    campanha.setMasterID(campanhaDetails.getMasterID());
+                    campanha.setClusterID(campanhaDetails.getClusterID());
                     campanha.setTitulo(campanhaDetails.getTitulo());
                     campanha.setConteudo(campanhaDetails.getConteudo());
                     campanha.setDescricao(campanhaDetails.getDescricao());
@@ -55,9 +55,9 @@ public class CampanhasController {
     }
 
     // Deletar uma campanha
-    @DeleteMapping("/{campanhaId}")
-    public ResponseEntity<?> deleteCampanha(@PathVariable Integer campanhaId) {
-        return campanhasRepository.findById(campanhaId)
+    @DeleteMapping("/{campanhaID}")
+    public ResponseEntity<?> deleteCampanha(@PathVariable Integer campanhaID) {
+        return campanhasRepository.findById(campanhaID)
                 .map(campanha -> {
                     campanhasRepository.delete(campanha);
                     return ResponseEntity.ok().build();

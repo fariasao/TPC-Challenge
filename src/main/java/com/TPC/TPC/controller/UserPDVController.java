@@ -25,9 +25,9 @@ public class UserPDVController {
     }
 
     // Buscar um usuário PDV pelo ID
-    @GetMapping("/{atUserId}")
-    public ResponseEntity<UserPDV> getUserPDVById(@PathVariable Integer atUserId) {
-        return userPDVRepository.findById(atUserId)
+    @GetMapping("/{userPdvID}")
+    public ResponseEntity<UserPDV> getUserPDVById(@PathVariable Integer userPdvID) {
+        return userPDVRepository.findById(userPdvID)
                 .map(userPDV -> ResponseEntity.ok().body(userPDV))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
@@ -40,26 +40,26 @@ public class UserPDVController {
     }
 
     // Atualizar um usuário PDV existente
-    @PutMapping("/{atUserId}")
-    public ResponseEntity<UserPDV> updateUserPDV(@PathVariable Integer atUserId, @Valid @RequestBody UserPDV userPDVDetails) {
-        return userPDVRepository.findById(atUserId)
+    @PutMapping("/{userPdvID}")
+    public ResponseEntity<UserPDV> updateUserPDV(@PathVariable Integer userPdvID, @Valid @RequestBody UserPDV userPDVDetails) {
+        return userPDVRepository.findById(userPdvID)
                 .map(userPDV -> {
-                    userPDV.setPdvId(userPDVDetails.getPdvId());
+                    userPDV.setPdvID(userPDVDetails.getPdvID());
                     userPDV.setNome(userPDVDetails.getNome());
                     userPDV.setSobrenome(userPDVDetails.getSobrenome());
                     userPDV.setEmail(userPDVDetails.getEmail());
                     userPDV.setPassword(userPDVDetails.getPassword());
                     userPDV.setDataRegistro(userPDVDetails.getDataRegistro());
-                    userPDV.setAtivo(userPDVDetails.getAtivo());
+                    userPDV.setAtivo(userPDVDetails.isAtivo());
                     UserPDV updatedUserPDV = userPDVRepository.save(userPDV);
                     return ResponseEntity.ok().body(updatedUserPDV);
                 }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     // Deletar um usuário PDV
-    @DeleteMapping("/{atUserId}")
-    public ResponseEntity<?> deleteUserPDV(@PathVariable Integer atUserId) {
-        return userPDVRepository.findById(atUserId)
+    @DeleteMapping("/{userPdvID}")
+    public ResponseEntity<?> deleteUserPDV(@PathVariable Integer userPdvID) {
+        return userPDVRepository.findById(userPdvID)
                 .map(userPDV -> {
                     userPDVRepository.delete(userPDV);
                     return ResponseEntity.ok().build();

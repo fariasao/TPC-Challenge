@@ -25,9 +25,9 @@ public class PontosController {
     }
 
     // Buscar um registro de pontos pelo ID
-    @GetMapping("/{pointId}")
-    public ResponseEntity<Pontos> getPontosById(@PathVariable Integer pointId) {
-        return pontosRepository.findById(pointId)
+    @GetMapping("/{pointID}")
+    public ResponseEntity<Pontos> getPontosById(@PathVariable Integer pointID) {
+        return pontosRepository.findById(pointID)
                 .map(ponto -> ResponseEntity.ok().body(ponto))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
@@ -40,24 +40,23 @@ public class PontosController {
     }
 
     // Atualizar um registro de pontos existente
-    @PutMapping("/{pointId}")
-    public ResponseEntity<Pontos> updatePontos(@PathVariable Integer pointId, @Valid @RequestBody Pontos pontosDetails) {
-        return pontosRepository.findById(pointId)
+    @PutMapping("/{pointID}")
+    public ResponseEntity<Pontos> updatePontos(@PathVariable Integer pointID, @Valid @RequestBody Pontos pontosDetails) {
+        return pontosRepository.findById(pointID)
                 .map(ponto -> {
-                    ponto.setCompraId(pontosDetails.getCompraId());
                     ponto.setValor(pontosDetails.getValor());
                     ponto.setDataCredito(pontosDetails.getDataCredito());
                     ponto.setDataExpiracao(pontosDetails.getDataExpiracao());
-                    ponto.setUtilizado(pontosDetails.getUtilizado());
+                    ponto.setUtilizado(pontosDetails.isUtilizado());
                     Pontos updatedPontos = pontosRepository.save(ponto);
                     return ResponseEntity.ok().body(updatedPontos);
                 }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     // Deletar um registro de pontos
-    @DeleteMapping("/{pointId}")
-    public ResponseEntity<?> deletePontos(@PathVariable Integer pointId) {
-        return pontosRepository.findById(pointId)
+    @DeleteMapping("/{pointID}")
+    public ResponseEntity<?> deletePontos(@PathVariable Integer pointID) {
+        return pontosRepository.findById(pointID)
                 .map(ponto -> {
                     pontosRepository.delete(ponto);
                     return ResponseEntity.ok().build();

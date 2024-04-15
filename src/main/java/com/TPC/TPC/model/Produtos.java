@@ -7,6 +7,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -19,32 +21,34 @@ import lombok.Data;
 public class Produtos {
     
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "pdvid")
-    private Integer pdvId;
+    @Column(name = "produtoid")
+    private Integer produtoID;
 
-    @NotNull
-    @Column(name = "categoriaid")
-    private Integer categoriaId;
+    @NotNull (message = "{produtos.pdvid.notnull}")
+    @ManyToOne
+    @JoinColumn(name = "pdvid", referencedColumnName = "pdvid")
+    private Loja pdvID;
+    
+    @NotNull (message = "{produtos.categoriaid.notnull}")
+    @ManyToOne
+    @JoinColumn(name = "categoriaid", referencedColumnName = "categoriaid")
+    private Categorias categoriaID;
 
-    @NotBlank
-    @Size(max = 255)
+    @NotBlank (message = "{produtos.nome.notnull}")
+    @Size(max = 255, message = "{produtos.nome.size}")
     @Column(name = "nome")
     private String nome;
 
-    @NotBlank
-    @Size(max = 255)
+    @NotBlank (message = "{produtos.descricao.notnull}")
+    @Size(max = 255, message = "{produtos.descricao.size}")
     @Column(name = "descricao")
     private String descricao;
 
-    @NotNull
+    @NotNull (message = "{produtos.valor.notnull}")
     @Column(name = "valor")
     private BigDecimal valor;
 
-    @NotNull
+    @NotNull (message = "{produtos.ativo.notnull}")
     @Column(name = "ativo")
-    private Integer ativo;
-
-    @NotNull
-    @Column(name = "tb_comprapontos_pedidoid")
-    private Integer compraPontosPedidoId;
+    private boolean ativo;
 }

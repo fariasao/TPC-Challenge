@@ -18,49 +18,50 @@ import lombok.Data;
 public class Users {
     
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
-    private Integer id;
+    @Column(name = "usersid")
+    private Integer usersID;
 
-    @NotBlank
-    @Size(max = 50)
+    @NotBlank (message = "{users.nome.notnull}")
+    @Size(max = 50, message = "{users.nome.size}")
     @Column(name = "nome")
     private String nome;
 
-    @Size(max = 50)
+    @NotBlank (message = "{users.sobrenome.notnull}")
+    @Size(max = 50, message = "{users.sobrenome.size}")
     @Column(name = "sobrenome")
     private String sobrenome;
 
     @Email
-    @NotBlank
-    @Size(max = 50)
+    @NotBlank (message = "{users.email.notnull}")
+    @Size(max = 50, message = "{users.email.size}")
     @Column(name = "email")
     private String email;
 
-    @NotBlank
-    @Size(max = 255)
+    @NotBlank (message = "{users.password.notnull}")
+    @Size(max = 255, message = "{users.password.size}")
     @Column(name = "password")
     private String password;
 
     @NotBlank
-    @Size(max = 20)
+    @Size(max = 15, message = "{users.telefone.size}")
     @Column(name = "telefone")
     private String telefone;
 
-    @NotBlank
-    @Size(max = 255)
+    @NotBlank (message = "{users.endereco.notnull}")
+    @Size(max = 255, message = "{users.endereco.size}")
     @Column(name = "endereco")
     private String endereco;
 
-    @NotBlank
-    @Size(max = 255)
+    @NotBlank (message = "{users.numero.notnull}")
+    @Size(max = 50, message = "{users.numero.size}")
     @Column(name = "numero")
     private String numero;
 
-    @Size(max = 255)
+    @Size(max = 50, message = "{users.complemento.size}")
     @Column(name = "complemento")
     private String complemento;
 
-    @NotNull
-    @Column(name = "active")
-    private Integer active;
+    @NotNull (message = "{users.ativo.notnull}")
+    @Column(name = "ativo")
+    private boolean ativo;
 }

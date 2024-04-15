@@ -1,5 +1,6 @@
 package com.TPC.TPC.model;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import jakarta.persistence.Column;
@@ -21,28 +22,24 @@ public class Credit {
     
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "creditid")
-    private Integer creditId;
+    private Integer creditID;
 
-    @NotNull
-    @Column(name = "compraid")
-    private Integer compraId;
-
-    @NotNull
+    @NotNull (message = "{credit.valor.notnull}")
     @Min(1)
     @Column(name = "valor")
-    private Integer valor;
+    private BigDecimal valor;
 
-    @NotNull
+    @NotNull (message = "{credit.datacredito.notnull}")
     @Temporal(TemporalType.DATE)
     @Column(name = "datacredito")
     private Date dataCredito;
 
-    @NotNull
+    @NotNull (message = "{credit.dataexpiracao.notnull}")
     @Temporal(TemporalType.DATE)
     @Column(name = "dataexpiracao")
     private Date dataExpiracao;
 
-    @NotNull
+    @NotNull (message = "{credit.utilizado.notnull}")
     @Column(name = "utilizado")
-    private Integer utilizado;
+    private boolean utilizado;
 }

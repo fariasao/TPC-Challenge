@@ -25,9 +25,9 @@ public class UserClusterController {
     }
 
     // Buscar uma associação UserCluster pelo ID
-    @GetMapping("/{clusterInfoId}")
-    public ResponseEntity<UserCluster> getUserClusterById(@PathVariable Integer clusterInfoId) {
-        return userClusterRepository.findById(clusterInfoId)
+    @GetMapping("/{userClusterID}")
+    public ResponseEntity<UserCluster> getUserClusterById(@PathVariable Integer userClusterID) {
+        return userClusterRepository.findById(userClusterID)
                 .map(userCluster -> ResponseEntity.ok().body(userCluster))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
@@ -40,21 +40,21 @@ public class UserClusterController {
     }
 
     // Atualizar uma associação UserCluster existente
-    @PutMapping("/{clusterInfoId}")
-    public ResponseEntity<UserCluster> updateUserCluster(@PathVariable Integer clusterInfoId, @Valid @RequestBody UserCluster userClusterDetails) {
-        return userClusterRepository.findById(clusterInfoId)
+    @PutMapping("/{userClusterID}")
+    public ResponseEntity<UserCluster> updateUserCluster(@PathVariable Integer userClusterID, @Valid @RequestBody UserCluster userClusterDetails) {
+        return userClusterRepository.findById(userClusterID)
                 .map(userCluster -> {
-                    userCluster.setClusterId(userClusterDetails.getClusterId());
-                    userCluster.setUserId(userClusterDetails.getUserId());
+                    userCluster.setClusterID(userClusterDetails.getClusterID());
+                    userCluster.setUsersID(userClusterDetails.getUsersID());
                     UserCluster updatedUserCluster = userClusterRepository.save(userCluster);
                     return ResponseEntity.ok().body(updatedUserCluster);
                 }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     // Deletar uma associação UserCluster
-    @DeleteMapping("/{clusterInfoId}")
-    public ResponseEntity<?> deleteUserCluster(@PathVariable Integer clusterInfoId) {
-        return userClusterRepository.findById(clusterInfoId)
+    @DeleteMapping("/{userClusterID}")
+    public ResponseEntity<?> deleteUserCluster(@PathVariable Integer userClusterID) {
+        return userClusterRepository.findById(userClusterID)
                 .map(userCluster -> {
                     userClusterRepository.delete(userCluster);
                     return ResponseEntity.ok().build();

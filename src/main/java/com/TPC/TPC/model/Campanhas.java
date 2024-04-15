@@ -1,7 +1,5 @@
 package com.TPC.TPC.model;
 
-import java.sql.Clob;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -21,33 +19,33 @@ public class Campanhas {
     
     @Id
     @Column(name = "campanhaid")
-    private Integer campanhaId;
+    private Integer campanhaID;
 
     @NotNull (message =  "{campanhas.masterid.notnull}")
     @ManyToOne
     @JoinColumn(name = "masterid", referencedColumnName = "masterid")
-    private UserMaster masterId;
+    private UserMaster masterID;
 
-    @NotNull
+    @NotNull (message =  "{campanhas.clusterid.notnull}")
     @ManyToOne
     @JoinColumn(name = "cluesterid", referencedColumnName = "clusterid")
-    private Cluster clusterId;
+    private Cluster clusterID;
 
-    @NotBlank
-    @Size(max = 255)
+    @NotBlank (message =  "{campanhas.titulo.notnull}")
+    @Size(max = 255, message = "{campanhas.titulo.size}")
     @Column(name = "titulo")
     private String titulo;
 
     @Lob
     @Column(name = "conteudo")
-    private Clob conteudo;
+    private String conteudo;
 
-    @NotNull
+    @NotNull (message =  "{campanhas.descricao.notnull}")
     @Lob
     @Column(name = "descricao")
-    private Clob descricao;
+    private String descricao;
 
-    @NotNull
+    @NotNull (message =  "{campanhas.canaltipo.notnull}")
     @Column(name = "canaltipo")
     private Integer canalTipo;
 }

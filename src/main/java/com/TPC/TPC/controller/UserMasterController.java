@@ -25,9 +25,9 @@ public class UserMasterController {
     }
 
     // Buscar um usuário mestre pelo ID
-    @GetMapping("/{masterId}")
-    public ResponseEntity<UserMaster> getUserMasterById(@PathVariable Integer masterId) {
-        return userMasterRepository.findById(masterId)
+    @GetMapping("/{masterID}")
+    public ResponseEntity<UserMaster> getUserMasterById(@PathVariable Integer masterID) {
+        return userMasterRepository.findById(masterID)
                 .map(userMaster -> ResponseEntity.ok().body(userMaster))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
@@ -40,25 +40,25 @@ public class UserMasterController {
     }
 
     // Atualizar um usuário mestre existente
-    @PutMapping("/{masterId}")
-    public ResponseEntity<UserMaster> updateUserMaster(@PathVariable Integer masterId, @Valid @RequestBody UserMaster userMasterDetails) {
-        return userMasterRepository.findById(masterId)
+    @PutMapping("/{masterID}")
+    public ResponseEntity<UserMaster> updateUserMaster(@PathVariable Integer masterID, @Valid @RequestBody UserMaster userMasterDetails) {
+        return userMasterRepository.findById(masterID)
                 .map(userMaster -> {
                     userMaster.setNome(userMasterDetails.getNome());
                     userMaster.setSobrenome(userMasterDetails.getSobrenome());
                     userMaster.setEmail(userMasterDetails.getEmail());
                     userMaster.setPassword(userMasterDetails.getPassword());
                     userMaster.setDataRegistro(userMasterDetails.getDataRegistro());
-                    userMaster.setAtivo(userMasterDetails.getAtivo());
+                    userMaster.setAtivo(userMasterDetails.isAtivo());
                     UserMaster updatedUserMaster = userMasterRepository.save(userMaster);
                     return ResponseEntity.ok().body(updatedUserMaster);
                 }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     // Deletar um usuário mestre
-    @DeleteMapping("/{masterId}")
-    public ResponseEntity<?> deleteUserMaster(@PathVariable Integer masterId) {
-        return userMasterRepository.findById(masterId)
+    @DeleteMapping("/{masterID}")
+    public ResponseEntity<?> deleteUserMaster(@PathVariable Integer masterID) {
+        return userMasterRepository.findById(masterID)
                 .map(userMaster -> {
                     userMasterRepository.delete(userMaster);
                     return ResponseEntity.ok().build();

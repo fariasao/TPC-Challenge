@@ -18,40 +18,40 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name = "tb_usermaster")
+@Table(name = "tb_user_master")
 public class UserMaster {
     
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "masterid")
-    private Integer masterId;
+    private Integer masterID;
 
-    @NotBlank
-    @Size(max = 255)
+    @NotBlank (message = "{usermaster.nome.notnull}")
+    @Size(max = 255, message = "{usermaster.nome.size}")
     @Column(name = "nome")
     private String nome;
 
-    @NotBlank
-    @Size(max = 255)
+    @NotBlank (message = "{usermaster.sobrenome.notnull}")
+    @Size(max = 255, message = "{usermaster.sobrenome.size}")
     @Column(name = "sobrenome")
     private String sobrenome;
 
     @Email
-    @NotBlank
-    @Size(max = 255)
+    @NotBlank (message = "{usermaster.email.notnull}")
+    @Size(max = 255, message = "{usermaster.email.size}")
     @Column(name = "email")
     private String email;
 
-    @NotBlank
-    @Size(max = 255)
+    @NotBlank (message = "{usermaster.password.notnull}")
+    @Size(max = 255, message = "{usermaster.password.size}")
     @Column(name = "password")
     private String password;
 
-    @NotNull
+    @NotNull (message = "{usermaster.dataregistro.notnull}")
     @Temporal(TemporalType.DATE)
     @Column(name = "dataregistro")
     private Date dataRegistro;
 
-    @NotNull
+    @NotNull (message = "{usermaster.ativo.notnull}")
     @Column(name = "ativo")
-    private Integer ativo;
+    private boolean ativo;
 }

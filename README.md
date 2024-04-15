@@ -72,15 +72,15 @@ Aqui estão exemplos de como interagir com cada tipo de recurso:
     POST http://localhost:8080/users
     -Header 'Content-Type: application/json'
     -data '{
-      "nome": "Enzo",
-      "sobrenome": "Farias",
-      "email": "john@example.com",
-      "password": "securepass",
-      "telefone": "11947557509",
-      "endereco": "Rua Fiap",
-      "numero": "1377",
-      "Complemento": " ",
-      "active": true
+        "nome": "Thiago",
+        "sobrenome": "Zupelli",
+        "email": "rm99085@fiap.com.br",
+        "password": "123silva4",
+        "telefone": "12345678910",
+        "endereco": "Av. Paulista",
+        "numero": "1100",
+        "complemento": "",
+        "ativo": true
     }'
     
     ```
@@ -91,15 +91,15 @@ Aqui estão exemplos de como interagir com cada tipo de recurso:
     PUT http://localhost:8080/users/{id}
     -Header 'Content-Type: application/json'
     -data '{
-      "nome": "Enzo",
-      "sobrenome": "Farias",
-      "email": "updated@example.com",
-      "password": "newsecurepass",
-      "telefone": "11999999999",
-      "endereco": "Nova Rua Fiap",
-      "numero": "2000",
-      "Complemento": "Apto 101",
-      "active": true
+      "nome": "Thiago",
+        "sobrenome": "Zupelli",
+        "email": "rm99085@fiap.com.br",
+        "password": "123silva4",
+        "telefone": "12345678910",
+        "endereco": "Av. Paulista",
+        "numero": "1100",
+        "complemento": "",
+        "ativo": true
     }'
     
     ```
@@ -182,14 +182,15 @@ Aqui estão exemplos de como interagir com cada tipo de recurso:
       "status": "success",
       "data": {
         "id": 1,
-        "nome": "Enzo",
-        "sobrenome": "Farias",
-        "email": "john@example.com",
-        "telefone": "11947557509",
-        "endereco": "Rua Fiap",
-        "numero": "1377",
-        "Complemento": " ",
-        "active": true
+        "nome": "Thiago",
+        "sobrenome": "Zupelli",
+        "email": "rm99085@fiap.com.br",
+        "password": "123silva4",
+        "telefone": "12345678910",
+        "endereco": "Av. Paulista",
+        "numero": "1100",
+        "complemento": "",
+        "ativo": true
       }
     }
     
@@ -225,45 +226,45 @@ Banco de Dados:\
 ## Listagem de Endpoints
 ### Endpoints para Users:
 GET /users - Buscar todos os usuários.\
-GET /users/{id} - Buscar um usuário pelo ID.\
+GET /users/{usersID} - Buscar um usuário pelo ID.\
 POST /users - Criar um novo usuário.\
-PUT /users/{id} - Atualizar um usuário existente.\
-DELETE /users/{id} - Deletar um usuário pelo ID.
+PUT /users/{usersID} - Atualizar um usuário existente.\
+DELETE /users/{usersID} - Deletar um usuário pelo ID.
 
 ### Endpoints para UserMaster:
 GET /usermasters - Buscar todos os usuários mestres.\
-GET /usermasters/{masterId} - Buscar um usuário mestre pelo ID.\
+GET /usermasters/{masterID} - Buscar um usuário mestre pelo ID.\
 POST /usermasters - Criar um novo usuário mestre.\
-PUT /usermasters/{masterId} - Atualizar um usuário mestre existente.\
-DELETE /usermasters/{masterId} - Deletar um usuário mestre pelo ID.
+PUT /usermasters/{masterID} - Atualizar um usuário mestre existente.\
+DELETE /usermasters/{masterID} - Deletar um usuário mestre pelo ID.
 
 ### Endpoints para UserPDV:
 GET /userpdv - Buscar todos os usuários PDV.\
-GET /userpdv/{atUserId} - Buscar um usuário PDV pelo ID.\
+GET /userpdv/{userPdvID} - Buscar um usuário PDV pelo ID.\
 POST /userpdv - Criar um novo usuário PDV.\
-PUT /userpdv/{atUserId} - Atualizar um usuário PDV existente.\
-DELETE /userpdv/{atUserId} - Deletar um usuário PDV pelo ID.
+PUT /userpdv/{userPdvID} - Atualizar um usuário PDV existente.\
+DELETE /userpdv/{userPdvID} - Deletar um usuário PDV pelo ID.
 
 ### Endpoints para Loja:
 GET /lojas - Buscar todas as lojas.\
-GET /lojas/{pdvId} - Buscar uma loja pelo ID.\
+GET /lojas/{pdvID} - Buscar uma loja pelo ID.\
 POST /lojas - Criar uma nova loja.\
-PUT /lojas/{pdvId} - Atualizar uma loja existente.\
-DELETE /lojas/{pdvId} - Deletar uma loja pelo ID.
+PUT /lojas/{pdvID} - Atualizar uma loja existente.\
+DELETE /lojas/{pdvID} - Deletar uma loja pelo ID.
 
 ### Endpoints para Produtos:
 GET /produtos - Buscar todos os produtos.\
-GET /produtos/{pdvId} - Buscar um produto pelo ID.\
+GET /produtos/{produtoID} - Buscar um produto pelo ID.\
 POST /produtos - Criar um novo produto.\
-PUT /produtos/{pdvId} - Atualizar um produto existente.\
-DELETE /produtos/{pdvId} - Deletar um produto pelo ID.
+PUT /produtos/{produtoID} - Atualizar um produto existente.\
+DELETE /produtos/{produtoID} - Deletar um produto pelo ID.
 
 ### Endpoints para Credit:
 GET /credits - Buscar todos os créditos.\
-GET /credits/{creditId} - Buscar um crédito pelo ID.\
+GET /credits/{creditID} - Buscar um crédito pelo ID.\
 POST /credits - Criar um novo crédito.\
-PUT /credits/{creditId} - Atualizar um crédito existente.\
-DELETE /credits/{creditId} - Deletar um crédito pelo ID.
+PUT /credits/{creditID} - Atualizar um crédito existente.\
+DELETE /credits/{creditID} - Deletar um crédito pelo ID.
 
 ### Endpoints para Pontos:
 GET /pontos - Buscar todos os pontos.\
@@ -274,49 +275,56 @@ DELETE /pontos/{pointId} - Deletar um ponto pelo ID.
 
 ### Endpoints para UserCluster:
 GET /usercluster - Buscar todas as associações UserCluster.\
-GET /usercluster/{clusterInfoId} - Buscar uma associação UserCluster pelo ID.\
+GET /usercluster/{userClusterID} - Buscar uma associação UserCluster pelo ID.\
 POST /usercluster - Criar uma nova associação UserCluster.
-PUT /usercluster/{clusterInfoId} - Atualizar uma associação UserCluster existente.\
-DELETE /usercluster/{clusterInfoId} - Deletar uma associação UserCluster pelo ID.
+PUT /usercluster/{userClusterID} - Atualizar uma associação UserCluster existente.\
+DELETE /usercluster/{userClusterID} - Deletar uma associação UserCluster pelo ID.
 
 ### Endpoints para Notificacoes:
 GET /notificacoes - Buscar todas as notificações.\
-GET /notificacoes/{mensagemId} - Buscar uma notificação pelo ID.\
+GET /notificacoes/{notificacoesID} - Buscar uma notificação pelo ID.\
 POST /notificacoes - Criar uma nova notificação.\
-PUT /notificacoes/{mensagemId} - Atualizar uma notificação existente.\
-DELETE /notificacoes/{mensagemId} - Deletar uma notificação pelo ID.
+PUT /notificacoes/{notificacoesID} - Atualizar uma notificação existente.\
+DELETE /notificacoes/{notificacoesID} - Deletar uma notificação pelo ID.
 
 ### Endpoints para Compras:
 GET /compras - Buscar todas as compras.\
-GET /compras/{compraId} - Buscar uma compra pelo ID.\
+GET /compras/{compraID} - Buscar uma compra pelo ID.\
 POST /compras - Criar uma nova compra.\
-PUT /compras/{compraId} - Atualizar uma compra existente.\
-DELETE /compras/{compraId} - Deletar uma compra pelo ID.
+PUT /compras/{compraID} - Atualizar uma compra existente.\
+DELETE /compras/{compraID} - Deletar uma compra pelo ID.
 
 ### Endpoints para Campanhas:
 GET /campanhas - Buscar todas as campanhas.\
-GET /campanhas/{campanhaId} - Buscar uma campanha pelo ID.\
+GET /campanhas/{campanhaID} - Buscar uma campanha pelo ID.\
 POST /campanhas - Criar uma nova campanha.\
-PUT /campanhas/{campanhaId} - Atualizar uma campanha existente.\
-DELETE /campanhas/{campanhaId} - Deletar uma campanha pelo ID.
+PUT /campanhas/{campanhaID} - Atualizar uma campanha existente.\
+DELETE /campanhas/{campanhaID} - Deletar uma campanha pelo ID.
 
 ### Endpoints para Categorias:
 GET /categorias - Buscar todas as categorias.\
-GET /categorias/{categoriaId} - Buscar uma categoria pelo ID.\
+GET /categorias/{categoriaID} - Buscar uma categoria pelo ID.\
 POST /categorias - Criar uma nova categoria.\
-PUT /categorias/{categoriaId} - Atualizar uma categoria existente.\
-DELETE /categorias/{categoriaId} - Deletar uma categoria pelo ID.
+PUT /categorias/{categoriaID} - Atualizar uma categoria existente.\
+DELETE /categorias/{categoriaID} - Deletar uma categoria pelo ID.
 
 ### Endpoints para Cluster:
 GET /clusters - Buscar todos os clusters.\
-GET /clusters/{clusterId} - Buscar um cluster pelo ID.\
+GET /clusters/{clusterID} - Buscar um cluster pelo ID.\
 POST /clusters - Criar um novo cluster.\
-PUT /clusters/{clusterId} - Atualizar um cluster existente.\
-DELETE /clusters/{clusterId} - Deletar um cluster pelo ID.
+PUT /clusters/{clusterID} - Atualizar um cluster existente.\
+DELETE /clusters/{clusterID} - Deletar um cluster pelo ID.
 
-### Endpoints para CompraPontos:
-GET /comprapontos - Buscar todas as compras de pontos.\
-GET /comprapontos/{pedidoId} - Buscar uma compra de pontos pelo ID.\
-POST /comprapontos - Criar uma nova compra de pontos.\
-PUT /comprapontos/{pedidoId} - Atualizar uma compra de pontos existente.\
-DELETE /comprapontos/{pedidoId} - Deletar uma compra de pontos pelo ID.
+### Endpoints para CreditCompras:
+GET /creditcompras - Buscar todas as compras de pontos.\
+GET /creditcompras/{creditCompraID} - Buscar uma compra de pontos pelo ID.\
+POST /creditcompras - Criar uma nova compra de pontos.\
+PUT /creditcompras/{creditCompraID} - Atualizar uma compra de pontos existente.\
+DELETE /creditcompras/{creditCompraID} - Deletar uma compra de pontos pelo ID.
+
+### Endpoints para PontosCompra:
+GET /pontoscompras - Buscar todos os pontos.\
+GET /pontoscompras/{pontosCompraID} - Buscar um ponto pelo ID.\
+POST /pontoscompras - Criar novos pontos.\
+PUT /pontoscompras/{pontosCompraID} - Atualizar um ponto existente.\
+DELETE /pontoscompras/{pontosCompraID} - Deletar um ponto pelo ID.

@@ -25,9 +25,9 @@ public class LojaController {
     }
 
     // Buscar uma loja pelo ID
-    @GetMapping("/{pdvId}")
-    public ResponseEntity<Loja> getLojaById(@PathVariable Integer pdvId) {
-        return lojaRepository.findById(pdvId)
+    @GetMapping("/{pdvID}")
+    public ResponseEntity<Loja> getLojaById(@PathVariable Integer pdvID) {
+        return lojaRepository.findById(pdvID)
                 .map(loja -> ResponseEntity.ok().body(loja))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
@@ -40,25 +40,25 @@ public class LojaController {
     }
 
     // Atualizar uma loja existente
-    @PutMapping("/{pdvId}")
-    public ResponseEntity<Loja> updateLoja(@PathVariable Integer pdvId, @Valid @RequestBody Loja lojaDetails) {
-        return lojaRepository.findById(pdvId)
+    @PutMapping("/{pdvID}")
+    public ResponseEntity<Loja> updateLoja(@PathVariable Integer pdvID, @Valid @RequestBody Loja lojaDetails) {
+        return lojaRepository.findById(pdvID)
                 .map(loja -> {
                     loja.setNomeLoja(lojaDetails.getNomeLoja());
                     loja.setEndereco(lojaDetails.getEndereco());
                     loja.setNumero(lojaDetails.getNumero());
                     loja.setComplemento(lojaDetails.getComplemento());
                     loja.setCep(lojaDetails.getCep());
-                    loja.setActive(lojaDetails.getActive());
+                    loja.setActive(lojaDetails.isActive());
                     Loja updatedLoja = lojaRepository.save(loja);
                     return ResponseEntity.ok().body(updatedLoja);
                 }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     // Deletar uma loja
-    @DeleteMapping("/{pdvId}")
-    public ResponseEntity<?> deleteLoja(@PathVariable Integer pdvId) {
-        return lojaRepository.findById(pdvId)
+    @DeleteMapping("/{pdvID}")
+    public ResponseEntity<?> deleteLoja(@PathVariable Integer pdvID) {
+        return lojaRepository.findById(pdvID)
                 .map(loja -> {
                     lojaRepository.delete(loja);
                     return ResponseEntity.ok().build();

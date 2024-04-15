@@ -25,9 +25,9 @@ public class ProdutosController {
     }
 
     // Buscar um produto pelo ID
-    @GetMapping("/{pdvId}")
-    public ResponseEntity<Produtos> getProdutoById(@PathVariable Integer pdvId) {
-        return produtosRepository.findById(pdvId)
+    @GetMapping("/{produtoID}")
+    public ResponseEntity<Produtos> getProdutoById(@PathVariable Integer produtoID) {
+        return produtosRepository.findById(produtoID)
                 .map(produto -> ResponseEntity.ok().body(produto))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
@@ -40,25 +40,25 @@ public class ProdutosController {
     }
 
     // Atualizar um produto existente
-    @PutMapping("/{pdvId}")
-    public ResponseEntity<Produtos> updateProduto(@PathVariable Integer pdvId, @Valid @RequestBody Produtos produtoDetails) {
-        return produtosRepository.findById(pdvId)
+    @PutMapping("/{produtoID}")
+    public ResponseEntity<Produtos> updateProduto(@PathVariable Integer produtoID, @Valid @RequestBody Produtos produtoDetails) {
+        return produtosRepository.findById(produtoID)
                 .map(produto -> {
-                    produto.setCategoriaId(produtoDetails.getCategoriaId());
+                    produto.setPdvID(produtoDetails.getPdvID());
+                    produto.setCategoriaID(produtoDetails.getCategoriaID());
                     produto.setNome(produtoDetails.getNome());
                     produto.setDescricao(produtoDetails.getDescricao());
                     produto.setValor(produtoDetails.getValor());
-                    produto.setAtivo(produtoDetails.getAtivo());
-                    produto.setCompraPontosPedidoId(produtoDetails.getCompraPontosPedidoId());
+                    produto.setAtivo(produtoDetails.isAtivo());
                     Produtos updatedProduto = produtosRepository.save(produto);
                     return ResponseEntity.ok().body(updatedProduto);
                 }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     // Deletar um produto
-    @DeleteMapping("/{pdvId}")
-    public ResponseEntity<?> deleteProduto(@PathVariable Integer pdvId) {
-        return produtosRepository.findById(pdvId)
+    @DeleteMapping("/{produtoID}")
+    public ResponseEntity<?> deleteProduto(@PathVariable Integer produtoID) {
+        return produtosRepository.findById(produtoID)
                 .map(produto -> {
                     produtosRepository.delete(produto);
                     return ResponseEntity.ok().build();

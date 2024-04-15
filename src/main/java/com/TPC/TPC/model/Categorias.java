@@ -5,11 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
@@ -20,23 +17,18 @@ public class Categorias {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "categoriaid")
-    private Integer categoriaId;
+    private Integer categoriaID;
 
-    @NotNull
-    @ManyToOne
-    @JoinColumn(name = "pdvid", referencedColumnName = "pdvid")
-    private Loja loja;
-
-    @NotBlank
-    @Size(max = 50)
+    @NotBlank (message =  "{categorias.nome.notnull}")
+    @Size(max = 50, message = "{categorias.nome.size}")
     @Column(name = "nome")
     private String nome;
 
-    @NotBlank
-    @Size(max = 255)
+    @NotBlank (message =  "{categorias.descricao.notnull}")
+    @Size(max = 255, message = "{categorias.descricao.size}")
     @Column(name = "descricao")
     private String descricao;
 
     @Column(name = "ativo")
-    private Integer ativo;
+    private boolean ativo;
 }

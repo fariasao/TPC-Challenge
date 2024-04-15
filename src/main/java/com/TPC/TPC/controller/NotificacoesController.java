@@ -25,9 +25,9 @@ public class NotificacoesController {
     }
 
     // Buscar uma notificação pelo ID
-    @GetMapping("/{mensagemId}")
-    public ResponseEntity<Notificacoes> getNotificacaoById(@PathVariable Integer mensagemId) {
-        return notificacoesRepository.findById(mensagemId)
+    @GetMapping("/{notificacoesID}")
+    public ResponseEntity<Notificacoes> getNotificacaoById(@PathVariable Integer notificacoesID) {
+        return notificacoesRepository.findById(notificacoesID)
                 .map(notificacao -> ResponseEntity.ok().body(notificacao))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
@@ -40,11 +40,11 @@ public class NotificacoesController {
     }
 
     // Atualizar uma notificação existente
-    @PutMapping("/{mensagemId}")
-    public ResponseEntity<Notificacoes> updateNotificacao(@PathVariable Integer mensagemId, @Valid @RequestBody Notificacoes notificacaoDetails) {
-        return notificacoesRepository.findById(mensagemId)
+    @PutMapping("/{notificacoesID}")
+    public ResponseEntity<Notificacoes> updateNotificacao(@PathVariable Integer notificacoesID, @Valid @RequestBody Notificacoes notificacaoDetails) {
+        return notificacoesRepository.findById(notificacoesID)
                 .map(notificacao -> {
-                    notificacao.setPdvId(notificacaoDetails.getPdvId());
+                    notificacao.setPdvID(notificacaoDetails.getPdvID());
                     notificacao.setTitulo(notificacaoDetails.getTitulo());
                     notificacao.setMensagem(notificacaoDetails.getMensagem());
                     notificacao.setDataEnvio(notificacaoDetails.getDataEnvio());
@@ -54,9 +54,9 @@ public class NotificacoesController {
     }
 
     // Deletar uma notificação
-    @DeleteMapping("/{mensagemId}")
-    public ResponseEntity<?> deleteNotificacao(@PathVariable Integer mensagemId) {
-        return notificacoesRepository.findById(mensagemId)
+    @DeleteMapping("/{notificacoesID}")
+    public ResponseEntity<?> deleteNotificacao(@PathVariable Integer notificacoesID) {
+        return notificacoesRepository.findById(notificacoesID)
                 .map(notificacao -> {
                     notificacoesRepository.delete(notificacao);
                     return ResponseEntity.ok().build();

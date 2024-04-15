@@ -20,27 +20,23 @@ public class Pontos {
     
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "pointid")
-    private Integer pointId;
+    private Integer pointID;
 
-    @NotNull
-    @Column(name = "compraid")
-    private Integer compraId;
-
-    @NotNull
+    @NotNull (message = "{pontos.valor.notnull}")
     @Column(name = "valor")
     private Integer valor;
 
-    @NotNull
+    @NotNull (message = "{pontos.datacredito.notnull}")
     @Temporal(TemporalType.DATE)
     @Column(name = "datacredito")
     private Date dataCredito;
 
-    @NotNull
+    @NotNull (message = "{pontos.dataexpiracao.notnull}")
     @Temporal(TemporalType.DATE)
     @Column(name = "dataexpiracao")
     private Date dataExpiracao;
 
-    @NotNull
+    @NotNull (message = "{pontos.utilizado.notnull}")
     @Column(name = "utilizado")
-    private Integer utilizado;
+    private boolean utilizado;
 }

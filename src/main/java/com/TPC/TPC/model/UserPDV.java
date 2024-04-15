@@ -7,6 +7,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -18,44 +20,45 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name = "tb_userpdv")
+@Table(name = "tb_user_pdv")
 public class UserPDV {
     
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "atuserid")
-    private Integer atUserId;
+    @Column(name = "userpdvid")
+    private Integer userPdvID;
 
-    @NotNull
-    @Column(name = "pdvid")
-    private Integer pdvId;
+    @NotNull (message = "{userpdv.pdvid.notnull}")
+    @ManyToOne
+    @JoinColumn(name = "pdvid", referencedColumnName = "pdvid")
+    private Loja pdvID;
 
-    @NotBlank
-    @Size(max = 255)
+    @NotBlank (message = "{userpdv.nome.notnull}")
+    @Size(max = 255, message = "{userpdv.nome.size}")
     @Column(name = "nome")
     private String nome;
 
-    @NotBlank
-    @Size(max = 255)
+    @NotBlank (message = "{userpdv.sobrenome.notnull}")
+    @Size(max = 255, message = "{userpdv.sobrenome.size}")
     @Column(name = "sobrenome")
     private String sobrenome;
 
     @Email
-    @NotBlank
-    @Size(max = 255)
+    @NotBlank (message = "{userpdv.email.notnull}")
+    @Size(max = 255, message = "{userpdv.email.size}")
     @Column(name = "email")
     private String email;
 
-    @NotBlank
-    @Size(max = 255)
+    @NotBlank (message = "{userpdv.password.notnull}")
+    @Size(max = 255, message = "{userpdv.password.size}")
     @Column(name = "password")
     private String password;
 
-    @NotNull
+    @NotNull (message = "{userpdv.dataregistro.notnull}")
     @Temporal(TemporalType.DATE)
     @Column(name = "dataregistro")
     private Date dataRegistro;
 
-    @NotNull
+    @NotNull (message = "{userpdv.ativo.notnull}")
     @Column(name = "ativo")
-    private Integer ativo;
+    private boolean ativo;
 }

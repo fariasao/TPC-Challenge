@@ -8,6 +8,7 @@
 - [Imagem dos diagramas de classe;](#imagem-dos-diagramas-de-classe)
 - [Link para vídeo com a proposta tecnológica;](#link-para-vídeo-com-a-proposta-tecnológica)
 - [Listagem de Endpoints.](#listagem-de-endpoints)
+- [Link para o Swagger.](#link-para-o-swagger)
 
 ## Integrantes
 - Beatriz Lucas - RM99104 (Responsável por atuar em Disruptive Architectures, Compliance & Quality Assurance e DevOps Tools & Cloud Computing);

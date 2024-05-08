@@ -3,6 +3,9 @@ package com.TPC.TPC.controller;
 import com.TPC.TPC.model.Categorias;
 import com.TPC.TPC.repository.CategoriasRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +14,8 @@ import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/categorias")
+@RequestMapping("categorias")
+@CacheConfig(cacheNames = "categorias")
 public class CategoriasController {
 
     @Autowired
@@ -19,12 +23,13 @@ public class CategoriasController {
 
     // Buscar todas as categorias
     @GetMapping
+    @Cacheable("categorias")
     public List<Categorias> getAllCategorias() {
         return categoriasRepository.findAll();
     }
 
     // Buscar uma categoria pelo ID
-    @GetMapping("/{categoriaID}")
+    @GetMapping("{categoriaID}")
     public ResponseEntity<Categorias> getCategoriaById(@PathVariable Integer categoriaID) {
         return categoriasRepository.findById(categoriaID)
                 .map(categoria -> ResponseEntity.ok(categoria))
@@ -33,13 +38,15 @@ public class CategoriasController {
 
     // Criar uma nova categoria
     @PostMapping
+    @CacheEvict(allEntries = true)
     public ResponseEntity<Categorias> createCategoria(@Valid @RequestBody Categorias categoria) {
         Categorias savedCategoria = categoriasRepository.save(categoria);
         return new ResponseEntity<>(savedCategoria, HttpStatus.CREATED);
     }
 
     // Atualizar uma categoria existente
-    @PutMapping("/{categoriaID}")
+    @PutMapping("{categoriaID}")
+    @CacheEvict(allEntries = true)
     public ResponseEntity<Categorias> updateCategoria(@PathVariable Integer categoriaID, @Valid @RequestBody Categorias categoriaDetails) {
         return categoriasRepository.findById(categoriaID)
                 .map(categoria -> {
@@ -52,7 +59,8 @@ public class CategoriasController {
     }
 
     // Deletar uma categoria
-    @DeleteMapping("/{categoriaID}")
+    @DeleteMapping("{categoriaID}")
+    @CacheEvict(allEntries = true)
     public ResponseEntity<?> deleteCategoria(@PathVariable Integer categoriaID) {
         return categoriasRepository.findById(categoriaID)
                 .map(categoria -> {

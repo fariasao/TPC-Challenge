@@ -328,3 +328,7 @@ GET /pontoscompras/{pontosCompraID} - Buscar um ponto pelo ID.\
 POST /pontoscompras - Criar novos pontos.\
 PUT /pontoscompras/{pontosCompraID} - Atualizar um ponto existente.\
 DELETE /pontoscompras/{pontosCompraID} - Deletar um ponto pelo ID.
+
+## Link para o Swagger
+[Swagger](http://localhost:8080/swagger-ui/index.html#/)\
+OBS: a API precisa estar rodando para funcionamento do mesmo.

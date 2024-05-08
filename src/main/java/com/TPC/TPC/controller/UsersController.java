@@ -3,6 +3,9 @@ package com.TPC.TPC.controller;
 import com.TPC.TPC.model.Users;
 import com.TPC.TPC.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,7 +13,8 @@ import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("users")
+@CacheConfig(cacheNames = "users")
 public class UsersController {
 
     @Autowired
@@ -18,13 +22,14 @@ public class UsersController {
 
     // Buscar todos os usuários
     @GetMapping
+    @Cacheable("users")
     public ResponseEntity<List<Users>> getAllUsers() {
         List<Users> users = usersRepository.findAll();
         return ResponseEntity.ok(users);
     }
 
     // Buscar um usuário pelo ID
-    @GetMapping("/{usersID}")
+    @GetMapping("{usersID}")
     public ResponseEntity<Users> getUserById(@PathVariable Integer usersID) {
         return usersRepository.findById(usersID)
                 .map(user -> ResponseEntity.ok(user))
@@ -33,13 +38,15 @@ public class UsersController {
 
     // Criar um novo usuário
     @PostMapping
+    @CacheEvict(allEntries = true)
     public ResponseEntity<Users> createUser(@Valid @RequestBody Users user) {
         Users savedUser = usersRepository.save(user);
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
 
     // Atualizar um usuário existente
-    @PutMapping("/{usersID}")
+    @PutMapping("{usersID}")
+    @CacheEvict(allEntries = true)
     public ResponseEntity<Users> updateUser(@PathVariable Integer usersID, @Valid @RequestBody Users userDetails) {
         return usersRepository.findById(usersID)
                 .map(user -> {
@@ -58,7 +65,8 @@ public class UsersController {
     }
 
     // Deletar um usuário
-    @DeleteMapping("/{usersID}")
+    @DeleteMapping("{usersID}")
+    @CacheEvict(allEntries = true)
     public ResponseEntity<Void> deleteUser(@PathVariable Integer usersID) {
         return usersRepository.findById(usersID)
                 .map(user -> {

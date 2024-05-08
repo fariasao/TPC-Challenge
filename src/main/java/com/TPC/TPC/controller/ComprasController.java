@@ -3,6 +3,9 @@ package com.TPC.TPC.controller;
 import com.TPC.TPC.model.Compras;
 import com.TPC.TPC.repository.ComprasRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +14,8 @@ import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/compras")
+@RequestMapping("compras")
+@CacheConfig(cacheNames = "compras")
 public class ComprasController {
 
     @Autowired
@@ -19,13 +23,14 @@ public class ComprasController {
 
     // Buscar todas as compras
     @GetMapping
+    @Cacheable("compras")
     public ResponseEntity<List<Compras>> getAllCompras() {
         List<Compras> compras = comprasRepository.findAll();
         return ResponseEntity.ok().body(compras);
     }
 
     // Buscar uma compra pelo ID
-    @GetMapping("/{compraID}")
+    @GetMapping("{compraID}")
     public ResponseEntity<Compras> getCompraById(@PathVariable Integer compraID) {
         return comprasRepository.findById(compraID)
                 .map(compra -> ResponseEntity.ok().body(compra))
@@ -34,13 +39,15 @@ public class ComprasController {
 
     // Criar uma nova compra
     @PostMapping
+    @CacheEvict(allEntries = true)
     public ResponseEntity<Compras> createCompra(@Valid @RequestBody Compras compra) {
         Compras savedCompra = comprasRepository.save(compra);
         return new ResponseEntity<>(savedCompra, HttpStatus.CREATED);
     }
 
     // Atualizar uma compra existente
-    @PutMapping("/{compraID}")
+    @PutMapping("{compraID}")
+    @CacheEvict(allEntries = true)
     public ResponseEntity<Compras> updateCompra(@PathVariable Integer compraID, @Valid @RequestBody Compras compraDetails) {
         return comprasRepository.findById(compraID)
                 .map(compra -> {
@@ -54,7 +61,8 @@ public class ComprasController {
     }
 
     // Deletar uma compra
-    @DeleteMapping("/{compraID}")
+    @DeleteMapping("{compraID}")
+    @CacheEvict(allEntries = true)
     public ResponseEntity<?> deleteCompra(@PathVariable Integer compraID) {
         return comprasRepository.findById(compraID)
                 .map(compra -> {

@@ -3,6 +3,9 @@ package com.TPC.TPC.controller;
 import com.TPC.TPC.model.Loja;
 import com.TPC.TPC.repository.LojaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +14,8 @@ import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/lojas")
+@RequestMapping("lojas")
+@CacheConfig(cacheNames = "lojas")
 public class LojaController {
 
     @Autowired
@@ -19,13 +23,14 @@ public class LojaController {
 
     // Buscar todas as lojas
     @GetMapping
+    @Cacheable("lojas")
     public ResponseEntity<List<Loja>> getAllLojas() {
         List<Loja> lojas = lojaRepository.findAll();
         return ResponseEntity.ok().body(lojas);
     }
 
     // Buscar uma loja pelo ID
-    @GetMapping("/{pdvID}")
+    @GetMapping("{pdvID}")
     public ResponseEntity<Loja> getLojaById(@PathVariable Integer pdvID) {
         return lojaRepository.findById(pdvID)
                 .map(loja -> ResponseEntity.ok().body(loja))
@@ -34,13 +39,15 @@ public class LojaController {
 
     // Criar uma nova loja
     @PostMapping
+    @CacheEvict(allEntries = true)
     public ResponseEntity<Loja> createLoja(@Valid @RequestBody Loja loja) {
         Loja savedLoja = lojaRepository.save(loja);
         return new ResponseEntity<>(savedLoja, HttpStatus.CREATED);
     }
 
     // Atualizar uma loja existente
-    @PutMapping("/{pdvID}")
+    @PutMapping("{pdvID}")
+    @CacheEvict(allEntries = true)
     public ResponseEntity<Loja> updateLoja(@PathVariable Integer pdvID, @Valid @RequestBody Loja lojaDetails) {
         return lojaRepository.findById(pdvID)
                 .map(loja -> {
@@ -56,7 +63,8 @@ public class LojaController {
     }
 
     // Deletar uma loja
-    @DeleteMapping("/{pdvID}")
+    @DeleteMapping("{pdvID}")
+    @CacheEvict(allEntries = true)
     public ResponseEntity<?> deleteLoja(@PathVariable Integer pdvID) {
         return lojaRepository.findById(pdvID)
                 .map(loja -> {

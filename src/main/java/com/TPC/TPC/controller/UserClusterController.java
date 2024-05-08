@@ -3,6 +3,9 @@ package com.TPC.TPC.controller;
 import com.TPC.TPC.model.UserCluster;
 import com.TPC.TPC.repository.UserClusterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +14,8 @@ import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/usercluster")
+@RequestMapping("usercluster")
+@CacheConfig(cacheNames = "usercluster")
 public class UserClusterController {
 
     @Autowired
@@ -19,13 +23,14 @@ public class UserClusterController {
 
     // Buscar todas as associações UserCluster
     @GetMapping
+    @Cacheable("usercluster")
     public ResponseEntity<List<UserCluster>> getAllUserClusters() {
         List<UserCluster> userClusters = userClusterRepository.findAll();
         return ResponseEntity.ok().body(userClusters);
     }
 
     // Buscar uma associação UserCluster pelo ID
-    @GetMapping("/{userClusterID}")
+    @GetMapping("{userClusterID}")
     public ResponseEntity<UserCluster> getUserClusterById(@PathVariable Integer userClusterID) {
         return userClusterRepository.findById(userClusterID)
                 .map(userCluster -> ResponseEntity.ok().body(userCluster))
@@ -34,13 +39,15 @@ public class UserClusterController {
 
     // Criar uma nova associação UserCluster
     @PostMapping
+    @CacheEvict(allEntries = true)
     public ResponseEntity<UserCluster> createUserCluster(@Valid @RequestBody UserCluster userCluster) {
         UserCluster savedUserCluster = userClusterRepository.save(userCluster);
         return new ResponseEntity<>(savedUserCluster, HttpStatus.CREATED);
     }
 
     // Atualizar uma associação UserCluster existente
-    @PutMapping("/{userClusterID}")
+    @PutMapping("{userClusterID}")
+    @CacheEvict(allEntries = true)
     public ResponseEntity<UserCluster> updateUserCluster(@PathVariable Integer userClusterID, @Valid @RequestBody UserCluster userClusterDetails) {
         return userClusterRepository.findById(userClusterID)
                 .map(userCluster -> {
@@ -52,7 +59,8 @@ public class UserClusterController {
     }
 
     // Deletar uma associação UserCluster
-    @DeleteMapping("/{userClusterID}")
+    @DeleteMapping("{userClusterID}")
+    @CacheEvict(allEntries = true)
     public ResponseEntity<?> deleteUserCluster(@PathVariable Integer userClusterID) {
         return userClusterRepository.findById(userClusterID)
                 .map(userCluster -> {

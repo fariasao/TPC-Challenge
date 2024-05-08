@@ -3,6 +3,9 @@ package com.TPC.TPC.controller;
 import com.TPC.TPC.model.Pontos;
 import com.TPC.TPC.repository.PontosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +14,8 @@ import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/pontos")
+@RequestMapping("pontos")
+@CacheConfig(cacheNames = "pontos")
 public class PontosController {
 
     @Autowired
@@ -19,13 +23,14 @@ public class PontosController {
 
     // Buscar todos os registros de pontos
     @GetMapping
+    @Cacheable("pontos")
     public ResponseEntity<List<Pontos>> getAllPontos() {
         List<Pontos> pontos = pontosRepository.findAll();
         return ResponseEntity.ok().body(pontos);
     }
 
     // Buscar um registro de pontos pelo ID
-    @GetMapping("/{pointID}")
+    @GetMapping("{pointID}")
     public ResponseEntity<Pontos> getPontosById(@PathVariable Integer pointID) {
         return pontosRepository.findById(pointID)
                 .map(ponto -> ResponseEntity.ok().body(ponto))
@@ -34,13 +39,15 @@ public class PontosController {
 
     // Criar um novo registro de pontos
     @PostMapping
+    @CacheEvict(allEntries = true)
     public ResponseEntity<Pontos> createPontos(@Valid @RequestBody Pontos ponto) {
         Pontos savedPontos = pontosRepository.save(ponto);
         return new ResponseEntity<>(savedPontos, HttpStatus.CREATED);
     }
 
     // Atualizar um registro de pontos existente
-    @PutMapping("/{pointID}")
+    @PutMapping("{pointID}")
+    @CacheEvict(allEntries = true)
     public ResponseEntity<Pontos> updatePontos(@PathVariable Integer pointID, @Valid @RequestBody Pontos pontosDetails) {
         return pontosRepository.findById(pointID)
                 .map(ponto -> {
@@ -54,7 +61,8 @@ public class PontosController {
     }
 
     // Deletar um registro de pontos
-    @DeleteMapping("/{pointID}")
+    @DeleteMapping("{pointID}")
+    @CacheEvict(allEntries = true)
     public ResponseEntity<?> deletePontos(@PathVariable Integer pointID) {
         return pontosRepository.findById(pointID)
                 .map(ponto -> {

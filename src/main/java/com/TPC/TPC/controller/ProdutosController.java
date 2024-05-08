@@ -3,6 +3,9 @@ package com.TPC.TPC.controller;
 import com.TPC.TPC.model.Produtos;
 import com.TPC.TPC.repository.ProdutosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +14,8 @@ import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/produtos")
+@RequestMapping("produtos")
+@CacheConfig(cacheNames = "produtos")
 public class ProdutosController {
 
     @Autowired
@@ -19,13 +23,14 @@ public class ProdutosController {
 
     // Buscar todos os produtos
     @GetMapping
+    @Cacheable("produtos")
     public ResponseEntity<List<Produtos>> getAllProdutos() {
         List<Produtos> produtos = produtosRepository.findAll();
         return ResponseEntity.ok().body(produtos);
     }
 
     // Buscar um produto pelo ID
-    @GetMapping("/{produtoID}")
+    @GetMapping("{produtoID}")
     public ResponseEntity<Produtos> getProdutoById(@PathVariable Integer produtoID) {
         return produtosRepository.findById(produtoID)
                 .map(produto -> ResponseEntity.ok().body(produto))
@@ -34,13 +39,15 @@ public class ProdutosController {
 
     // Criar um novo produto
     @PostMapping
+    @CacheEvict(allEntries = true)
     public ResponseEntity<Produtos> createProduto(@Valid @RequestBody Produtos produto) {
         Produtos savedProduto = produtosRepository.save(produto);
         return new ResponseEntity<>(savedProduto, HttpStatus.CREATED);
     }
 
     // Atualizar um produto existente
-    @PutMapping("/{produtoID}")
+    @PutMapping("{produtoID}")
+    @CacheEvict(allEntries = true)
     public ResponseEntity<Produtos> updateProduto(@PathVariable Integer produtoID, @Valid @RequestBody Produtos produtoDetails) {
         return produtosRepository.findById(produtoID)
                 .map(produto -> {
@@ -56,7 +63,8 @@ public class ProdutosController {
     }
 
     // Deletar um produto
-    @DeleteMapping("/{produtoID}")
+    @DeleteMapping("{produtoID}")
+    @CacheEvict(allEntries = true)
     public ResponseEntity<?> deleteProduto(@PathVariable Integer produtoID) {
         return produtosRepository.findById(produtoID)
                 .map(produto -> {

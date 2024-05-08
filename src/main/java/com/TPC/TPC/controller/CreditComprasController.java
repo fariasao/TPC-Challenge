@@ -3,6 +3,9 @@ package com.TPC.TPC.controller;
 import com.TPC.TPC.model.CreditCompras;
 import com.TPC.TPC.repository.CreditComprasRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +14,8 @@ import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/creditcompras")
+@RequestMapping("creditcompras")
+@CacheConfig(cacheNames = "creditcompras")
 public class CreditComprasController {
 
     @Autowired
@@ -19,13 +23,14 @@ public class CreditComprasController {
 
     // Buscar todas as compras de pontos
     @GetMapping
+    @Cacheable("creditcompras")
     public ResponseEntity<List<CreditCompras>> getAllCompraPontos() {
         List<CreditCompras> compras = creditComprasRepository.findAll();
         return ResponseEntity.ok().body(compras);
     }
 
     // Buscar uma compra de pontos pelo ID do pedido
-    @GetMapping("/{creditCompraID}")
+    @GetMapping("{creditCompraID}")
     public ResponseEntity<CreditCompras> getCompraPontosById(@PathVariable Integer creditCompraID) {
         return creditComprasRepository.findById(creditCompraID)
                 .map(compra -> ResponseEntity.ok().body(compra))
@@ -34,13 +39,15 @@ public class CreditComprasController {
 
     // Criar uma nova compra de pontos
     @PostMapping
+    @CacheEvict(allEntries = true)
     public ResponseEntity<CreditCompras> createCompraPontos(@Valid @RequestBody CreditCompras compraPontos) {
         CreditCompras savedCompra = creditComprasRepository.save(compraPontos);
         return new ResponseEntity<>(savedCompra, HttpStatus.CREATED);
     }
 
     // Atualizar uma compra de pontos existente
-    @PutMapping("/{creditCompraID}")
+    @PutMapping("{creditCompraID}")
+    @CacheEvict(allEntries = true)
     public ResponseEntity<CreditCompras> updateCompraPontos(@PathVariable Integer creditCompraID, @Valid @RequestBody CreditCompras compraPontosDetails) {
         return creditComprasRepository.findById(creditCompraID)
                 .map(compra -> {
@@ -52,7 +59,8 @@ public class CreditComprasController {
     }
 
     // Deletar uma compra de pontos
-    @DeleteMapping("/{creditCompraID}")
+    @DeleteMapping("{creditCompraID}")
+    @CacheEvict(allEntries = true)
     public ResponseEntity<?> deleteCompraPontos(@PathVariable Integer creditCompraID) {
         return creditComprasRepository.findById(creditCompraID)
                 .map(compra -> {

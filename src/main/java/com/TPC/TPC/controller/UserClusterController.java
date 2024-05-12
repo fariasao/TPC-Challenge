@@ -6,12 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping("usercluster")
@@ -24,9 +27,14 @@ public class UserClusterController {
     // Buscar todas as associações UserCluster
     @GetMapping
     @Cacheable("usercluster")
-    public ResponseEntity<List<UserCluster>> getAllUserClusters() {
-        List<UserCluster> userClusters = userClusterRepository.findAll();
-        return ResponseEntity.ok().body(userClusters);
+    public Page<UserCluster> listarUserClusters(
+        @RequestParam(required = false) String userCluster,
+        @PageableDefault(sort = "userClusterID", direction = Direction.ASC  ) Pageable pageable
+    ) {
+        if (userCluster != null){
+            return userClusterRepository.findByUserClusterID(userCluster, pageable);
+        }
+        return userClusterRepository.findAll(pageable);
     }
 
     // Buscar uma associação UserCluster pelo ID

@@ -6,12 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping("creditcompras")
@@ -24,9 +27,14 @@ public class CreditComprasController {
     // Buscar todas as compras de pontos
     @GetMapping
     @Cacheable("creditcompras")
-    public ResponseEntity<List<CreditCompras>> getAllCompraPontos() {
-        List<CreditCompras> compras = creditComprasRepository.findAll();
-        return ResponseEntity.ok().body(compras);
+    public Page<CreditCompras> listarCreditCompras(
+        @RequestParam(required = false) String creditCompras,
+        @PageableDefault(sort = "creditCompraID", direction = Direction.ASC  ) Pageable pageable
+    ) {
+        if (creditCompras != null){
+            return creditComprasRepository.findByCreditCompraID(creditCompras, pageable);
+        }
+        return creditComprasRepository.findAll(pageable);
     }
 
     // Buscar uma compra de pontos pelo ID do pedido

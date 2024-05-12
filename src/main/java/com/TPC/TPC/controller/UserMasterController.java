@@ -6,12 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping("usermasters")
@@ -24,9 +27,14 @@ public class UserMasterController {
     // Buscar todos os usuários mestres
     @GetMapping
     @Cacheable("usermasters")
-    public ResponseEntity<List<UserMaster>> getAllUserMasters() {
-        List<UserMaster> userMasters = userMasterRepository.findAll();
-        return ResponseEntity.ok().body(userMasters);
+    public Page<UserMaster> listarUserMasters(
+        @RequestParam(required = false) String userMaster,
+        @PageableDefault(sort = "nome", direction = Direction.ASC  ) Pageable pageable
+    ) {
+        if (userMaster != null){
+            return userMasterRepository.findByNome(userMaster, pageable);
+        }
+        return userMasterRepository.findAll(pageable);
     }
 
     // Buscar um usuário mestre pelo ID

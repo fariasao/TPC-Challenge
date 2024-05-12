@@ -1,11 +1,13 @@
 package com.TPC.TPC.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.TPC.TPC.model.PontosCompra;
@@ -33,9 +36,14 @@ public class PontosCompraController {
     // Buscar todas as compras de pontos
     @GetMapping
     @Cacheable("pontoscompras")
-    public ResponseEntity<List<PontosCompra>> getAllCompraPontos() {
-        List<PontosCompra> compras = pontosComprasRepository.findAll();
-        return ResponseEntity.ok().body(compras);
+    public Page<PontosCompra> listarPontosCompra(
+        @RequestParam(required = false) String pontosCompra,
+        @PageableDefault(sort = "pontosCompraID", direction = Direction.ASC  ) Pageable pageable
+    ) {
+        if (pontosCompra != null){
+            return pontosComprasRepository.findByPontosCompraID(pontosCompra, pageable);
+        }
+        return pontosComprasRepository.findAll(pageable);
     }
 
     // Buscar uma compra de pontos pelo ID do pedido

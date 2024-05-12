@@ -6,12 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping("credits")
@@ -24,9 +27,14 @@ public class CreditController {
     // Buscar todos os créditos
     @GetMapping
     @Cacheable("credits")
-    public ResponseEntity<List<Credit>> getAllCredits() {
-        List<Credit> credits = creditRepository.findAll();
-        return ResponseEntity.ok().body(credits);
+    public Page<Credit> listarCreditos(
+        @RequestParam(required = false) String credit,
+        @PageableDefault(sort = "dataCredito", direction = Direction.ASC  ) Pageable pageable
+    ) {
+        if (credit != null){
+            return creditRepository.findByDataCredito(credit, pageable);
+        }
+        return creditRepository.findAll(pageable);
     }
 
     // Buscar um crédito pelo ID

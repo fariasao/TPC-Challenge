@@ -6,12 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping("userpdv")
@@ -24,9 +27,14 @@ public class UserPDVController {
     // Buscar todos os usuários PDV
     @GetMapping
     @Cacheable("userpdv")
-    public ResponseEntity<List<UserPDV>> getAllUserPDVs() {
-        List<UserPDV> userPDVs = userPDVRepository.findAll();
-        return ResponseEntity.ok().body(userPDVs);
+    public Page<UserPDV> listarUserPDV(
+        @RequestParam(required = false) String userPDV,
+        @PageableDefault(sort = "nome", direction = Direction.ASC  ) Pageable pageable
+    ) {
+        if (userPDV != null){
+            return userPDVRepository.findByNome(userPDV, pageable);
+        }
+        return userPDVRepository.findAll(pageable);
     }
 
     // Buscar um usuário PDV pelo ID

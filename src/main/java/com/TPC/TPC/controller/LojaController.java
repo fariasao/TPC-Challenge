@@ -6,12 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping("lojas")
@@ -24,9 +27,14 @@ public class LojaController {
     // Buscar todas as lojas
     @GetMapping
     @Cacheable("lojas")
-    public ResponseEntity<List<Loja>> getAllLojas() {
-        List<Loja> lojas = lojaRepository.findAll();
-        return ResponseEntity.ok().body(lojas);
+    public Page<Loja> listarLojas(
+        @RequestParam(required = false) String loja,
+        @PageableDefault(sort = "nomeLoja", direction = Direction.ASC  ) Pageable pageable
+    ) {
+        if (loja != null){
+            return lojaRepository.findByNomeLoja(loja, pageable);
+        }
+        return lojaRepository.findAll(pageable);
     }
 
     // Buscar uma loja pelo ID

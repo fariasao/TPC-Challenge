@@ -6,12 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping("clusters")
@@ -24,9 +27,14 @@ public class ClusterController {
     // Buscar todos os clusters
     @GetMapping
     @Cacheable("clusters")
-    public ResponseEntity<List<Cluster>> getAllClusters() {
-        List<Cluster> clusters = clusterRepository.findAll();
-        return ResponseEntity.ok().body(clusters);
+    public Page<Cluster> listarClusters(
+        @RequestParam(required = false) String cluster,
+        @PageableDefault(sort = "name", direction = Direction.ASC  ) Pageable pageable
+    ) {
+        if (cluster != null){
+            return clusterRepository.findByName(cluster, pageable);
+        }
+        return clusterRepository.findAll(pageable);
     }
 
     // Buscar um cluster pelo ID

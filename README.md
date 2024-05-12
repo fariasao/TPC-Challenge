@@ -20,9 +20,10 @@
 ## Documentação completa
 [PDF com a documentação completa.](TPC_JavaAdvanced_1stSprint.pdf)
 
-## Cronograma primeira sprint
-![Cronograma](./images/Cronograma1stSprint.png)
-[Link para o arquivo completo.](Cronograma_TPC_Challenge_1Sprint.xlsx)
+## Cronograma das Sprints
+![Primeira Sprint](./images/Cronograma1stSprint.png)
+![Segunda Sprint](./images/Cronograma2ndSprint.png)
+[Link para o arquivo completo.](Cronograma_TPC_Challenge.xlsx)
 
 ## Instruções para uso da aplicação
 ### Iniciando a Aplicação

@@ -3,7 +3,7 @@
 ## Sumário
 - [Integrantes;](#integrantes)
 - [Documentação completa;](#documentação-completa)
-- [Cronograma primeira sprint;](#cronograma-primeira-sprint)
+- [Cronograma das sprints;](#cronograma-das-sprints)
 - [Instruções para uso da aplicação;](#instruções-para-uso-da-aplicação)
 - [Imagem dos diagramas de classe;](#imagem-dos-diagramas-de-classe)
 - [Link para vídeo com a proposta tecnológica;](#link-para-vídeo-com-a-proposta-tecnológica)

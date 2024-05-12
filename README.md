@@ -21,7 +21,9 @@
 [PDF com a documentação completa.](TPC_JavaAdvanced_1stSprint.pdf)
 
 ## Cronograma das Sprints
+### Primeira Sprint
 ![Primeira Sprint](./images/Cronograma1stSprint.png)
+### Segunda Sprint
 ![Segunda Sprint](./images/Cronograma2ndSprint.png)
 [Link para o arquivo completo.](Cronograma_TPC_Challenge.xlsx)
 

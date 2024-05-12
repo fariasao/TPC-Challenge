@@ -6,12 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping("compras")
@@ -24,9 +27,14 @@ public class ComprasController {
     // Buscar todas as compras
     @GetMapping
     @Cacheable("compras")
-    public ResponseEntity<List<Compras>> getAllCompras() {
-        List<Compras> compras = comprasRepository.findAll();
-        return ResponseEntity.ok().body(compras);
+    public Page<Compras> listarCompras(
+        @RequestParam(required = false) String compras,
+        @PageableDefault(sort = "dataCompra", direction = Direction.DESC  ) Pageable pageable
+    ) {
+        if (compras != null){
+            return comprasRepository.findByDataCompra(compras, pageable);
+        }
+        return comprasRepository.findAll(pageable);
     }
 
     // Buscar uma compra pelo ID

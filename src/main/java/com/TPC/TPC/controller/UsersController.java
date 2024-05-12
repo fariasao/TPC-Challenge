@@ -6,11 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping("users")
@@ -23,9 +26,14 @@ public class UsersController {
     // Buscar todos os usuários
     @GetMapping
     @Cacheable("users")
-    public ResponseEntity<List<Users>> getAllUsers() {
-        List<Users> users = usersRepository.findAll();
-        return ResponseEntity.ok(users);
+    public Page<Users> listarUsers(
+        @RequestParam(required = false) String user,
+        @PageableDefault(sort = "nome", direction = Direction.ASC  ) Pageable pageable
+    ) {
+        if (user != null){
+            return usersRepository.findByNome(user, pageable);
+        }
+        return usersRepository.findAll(pageable);
     }
 
     // Buscar um usuário pelo ID

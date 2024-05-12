@@ -6,12 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping("categorias")
@@ -24,8 +27,14 @@ public class CategoriasController {
     // Buscar todas as categorias
     @GetMapping
     @Cacheable("categorias")
-    public List<Categorias> getAllCategorias() {
-        return categoriasRepository.findAll();
+    public Page<Categorias> listarCategorias(
+        @RequestParam(required = false) String categorias,
+        @PageableDefault(sort = "nome", direction = Direction.ASC  ) Pageable pageable
+    ) {
+        if (categorias != null){
+            return categoriasRepository.findByNome(categorias, pageable);
+        }
+        return categoriasRepository.findAll(pageable);
     }
 
     // Buscar uma categoria pelo ID

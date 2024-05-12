@@ -7,14 +7,18 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data 
-@Table(name = "tb_user_cluster")
-public class UserCluster {
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class UserCluster extends Object{
     
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "userclusterid")

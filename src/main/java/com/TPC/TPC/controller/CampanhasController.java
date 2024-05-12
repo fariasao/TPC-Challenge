@@ -6,12 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping("campanhas")
@@ -24,8 +27,14 @@ public class CampanhasController {
     // Buscar todas as campanhas
     @GetMapping
     @Cacheable("campanhas")
-    public List<Campanhas> getAllCampanhas() {
-        return campanhasRepository.findAll();
+    public Page<Campanhas> listarCampanhas(
+        @RequestParam(required = false) String campanha,
+        @PageableDefault(sort = "titulo", direction = Direction.ASC  ) Pageable pageable
+    ) {
+        if (campanha != null){
+            return campanhasRepository.findByTitulo(campanha, pageable);
+        }
+        return campanhasRepository.findAll(pageable);
     }
 
     // Buscar uma campanha pelo ID

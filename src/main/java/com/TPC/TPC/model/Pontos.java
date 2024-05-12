@@ -7,16 +7,20 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@Table(name = "tb_pontos")
-public class Pontos {
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class Pontos extends Object{
     
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "pointid")

@@ -10,18 +10,22 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@Table(name = "tb_notificacoes")
-public class Notificacoes {
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class Notificacoes extends Object{
     
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "notificacoesid")

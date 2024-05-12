@@ -6,12 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping("notificacoes")
@@ -24,9 +27,14 @@ public class NotificacoesController {
     // Buscar todas as notificações
     @GetMapping
     @Cacheable("notificacoes")
-    public ResponseEntity<List<Notificacoes>> getAllNotificacoes() {
-        List<Notificacoes> notificacoes = notificacoesRepository.findAll();
-        return ResponseEntity.ok().body(notificacoes);
+    public Page<Notificacoes> listarNotificacoes(
+        @RequestParam(required = false) String notificacoes,
+        @PageableDefault(sort = "dataEnvio", direction = Direction.ASC  ) Pageable pageable
+    ) {
+        if (notificacoes != null){
+            return notificacoesRepository.findByDataEnvio(notificacoes, pageable);
+        }
+        return notificacoesRepository.findAll(pageable);
     }
 
     // Buscar uma notificação pelo ID

@@ -1,6 +1,5 @@
 package com.TPC.TPC.model;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 import jakarta.persistence.Column;
@@ -10,16 +9,20 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@Table(name = "tb_compras")
-public class Compras {
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class Compras extends Object{
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "compraid")
@@ -37,7 +40,7 @@ public class Compras {
 
     @NotNull (message = "{compras.valor.notnull}")
     @Column(name = "valor")
-    private BigDecimal valor;
+    private double valor;
 
     @NotNull (message = "{compras.datacompra.notnull}")
     @Temporal(TemporalType.DATE)

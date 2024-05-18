@@ -2,6 +2,12 @@ package com.TPC.TPC.controller;
 
 import com.TPC.TPC.model.Loja;
 import com.TPC.TPC.repository.LojaRepository;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
@@ -19,6 +25,7 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("lojas")
 @CacheConfig(cacheNames = "lojas")
+@Tag(name = "Lojas", description = "Lojas parceiras do aplicativo.")
 public class LojaController {
 
     @Autowired
@@ -27,6 +34,14 @@ public class LojaController {
     // Buscar todas as lojas
     @GetMapping
     @Cacheable("lojas")
+    @Operation(
+        summary = "Listar lojas",
+        description = "Retorna uma página com todas as lojas cadastradas, ordenadas pelo nome da loja."
+    )
+    @ApiResponses({ 
+        @ApiResponse(responseCode = "200", description = "Lojas retornadas com sucesso."),
+        @ApiResponse(responseCode = "404", description = "Não existem lojas cadastradas.", useReturnTypeSchema = false)
+    })
     public Page<Loja> listarLojas(
         @RequestParam(required = false) String loja,
         @PageableDefault(sort = "nomeLoja", direction = Direction.ASC  ) Pageable pageable
@@ -39,6 +54,14 @@ public class LojaController {
 
     // Buscar uma loja pelo ID
     @GetMapping("{pdvID}")
+    @Operation(
+        summary = "Listar loja por ID",
+        description = "Retorna uma determinada loja correspondente com o ID selecionado."
+    )
+    @ApiResponses({ 
+        @ApiResponse(responseCode = "200", description = "Dados da loja retornados com sucesso."),
+        @ApiResponse(responseCode = "404", description = "Não existe loja com o id informado.", useReturnTypeSchema = false)
+    })
     public ResponseEntity<Loja> getLojaById(@PathVariable Integer pdvID) {
         return lojaRepository.findById(pdvID)
                 .map(loja -> ResponseEntity.ok().body(loja))
@@ -48,6 +71,14 @@ public class LojaController {
     // Criar uma nova loja
     @PostMapping
     @CacheEvict(allEntries = true)
+    @Operation(
+        summary = "Cadastrar loja",
+        description = "Cadastra uma nova loja com os dados do corpo da requisição."
+    )
+    @ApiResponses({ 
+        @ApiResponse(responseCode = "201", description = "Loja cadastrada com sucesso"),
+        @ApiResponse(responseCode = "400", description = "Validação falhou. Verifique as regras para o corpo da requisição", useReturnTypeSchema = false)
+    })
     public ResponseEntity<Loja> createLoja(@Valid @RequestBody Loja loja) {
         Loja savedLoja = lojaRepository.save(loja);
         return new ResponseEntity<>(savedLoja, HttpStatus.CREATED);
@@ -56,6 +87,15 @@ public class LojaController {
     // Atualizar uma loja existente
     @PutMapping("{pdvID}")
     @CacheEvict(allEntries = true)
+    @Operation(
+        summary = "Atualizar loja",
+        description = "Atualiza uma determinada loja correspondente com o ID selecionado."
+    )
+    @ApiResponses({ 
+        @ApiResponse(responseCode = "200", description = "Dados da loja retornados com sucesso."),
+        @ApiResponse(responseCode = "400", description = "Validação falhou. Verifique as regras para o corpo da requisição.", useReturnTypeSchema = false),
+        @ApiResponse(responseCode = "404", description = "Não existe loja com o id informado.", useReturnTypeSchema = false)
+    })
     public ResponseEntity<Loja> updateLoja(@PathVariable Integer pdvID, @Valid @RequestBody Loja lojaDetails) {
         return lojaRepository.findById(pdvID)
                 .map(loja -> {
@@ -73,6 +113,14 @@ public class LojaController {
     // Deletar uma loja
     @DeleteMapping("{pdvID}")
     @CacheEvict(allEntries = true)
+    @Operation(
+        summary = "Deletar loja",
+        description = "Deleta uma determinada loja correspondente com o ID selecionado."
+    )
+    @ApiResponses({ 
+        @ApiResponse(responseCode = "200", description = "Dados da loja deletados com sucesso."),
+        @ApiResponse(responseCode = "404", description = "Não existe loja com o id informado.", useReturnTypeSchema = false)
+    })
     public ResponseEntity<?> deleteLoja(@PathVariable Integer pdvID) {
         return lojaRepository.findById(pdvID)
                 .map(loja -> {

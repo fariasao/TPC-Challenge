@@ -334,5 +334,5 @@ PUT /pontoscompras/{pontosCompraID} - Atualizar um ponto existente.\
 DELETE /pontoscompras/{pontosCompraID} - Deletar um ponto pelo ID.
 
 ## Link para o Swagger
-[Swagger](http://localhost:8080/swagger-ui/index.html#/)\
+[Swagger](http://localhost:8080/docs)\
 OBS: a API precisa estar rodando para funcionamento do mesmo.

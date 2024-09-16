@@ -13,7 +13,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,8 +25,7 @@ import jakarta.validation.Valid;
 public class ClusterController {
 
     @Autowired
-    private ClusterRepository clusterRepository;
-
+    private ClusterService clusterService;
     // Buscar todos os clusters
     @GetMapping
     @Cacheable("clusters")
@@ -43,10 +41,7 @@ public class ClusterController {
         @RequestParam(required = false) String cluster,
         @PageableDefault(sort = "name", direction = Direction.ASC  ) Pageable pageable
     ) {
-        if (cluster != null){
-            return clusterRepository.findByName(cluster, pageable);
-        }
-        return clusterRepository.findAll(pageable);
+        return clusterService.listarCluster(cluster, pageable);
     }
 
     // Buscar um cluster pelo ID
@@ -60,9 +55,7 @@ public class ClusterController {
         @ApiResponse(responseCode = "404", description = "Não existe cluster com o id informado.", useReturnTypeSchema = false)
     })
     public ResponseEntity<Cluster> getClusterById(@PathVariable Integer clusterID) {
-        return clusterRepository.findById(clusterID)
-                .map(cluster -> ResponseEntity.ok().body(cluster))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        return clusterService.getClusterById(clusterID);
     }
 
     // Criar um novo cluster
@@ -77,8 +70,7 @@ public class ClusterController {
         @ApiResponse(responseCode = "400", description = "Validação falhou. Verifique as regras para o corpo da requisição", useReturnTypeSchema = false)
     })
     public ResponseEntity<Cluster> createCluster(@Valid @RequestBody Cluster cluster) {
-        Cluster savedCluster = clusterRepository.save(cluster);
-        return new ResponseEntity<>(savedCluster, HttpStatus.CREATED);
+        return clusterService.createCluster(cluster);
     }
 
     // Atualizar um cluster existente
@@ -94,13 +86,7 @@ public class ClusterController {
         @ApiResponse(responseCode = "404", description = "Não existe cluster com o id informado.", useReturnTypeSchema = false)
     })
     public ResponseEntity<Cluster> updateCluster(@PathVariable Integer clusterID, @Valid @RequestBody Cluster clusterDetails) {
-        return clusterRepository.findById(clusterID)
-                .map(cluster -> {
-                    cluster.setName(clusterDetails.getName());
-                    cluster.setDescricao(clusterDetails.getDescricao());
-                    Cluster updatedCluster = clusterRepository.save(cluster);
-                    return ResponseEntity.ok().body(updatedCluster);
-                }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        return clusterService.updateCluster(clusterID, clusterDetails);
     }
 
     // Deletar um cluster
@@ -115,10 +101,6 @@ public class ClusterController {
         @ApiResponse(responseCode = "404", description = "Não existe cluster com o id informado.", useReturnTypeSchema = false)
     })
     public ResponseEntity<?> deleteCluster(@PathVariable Integer clusterID) {
-        return clusterRepository.findById(clusterID)
-                .map(cluster -> {
-                    clusterRepository.delete(cluster);
-                    return ResponseEntity.ok().build();
-                }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        return clusterService.deleteCluster(clusterID);
     }
 }

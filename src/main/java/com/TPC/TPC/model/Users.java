@@ -1,6 +1,7 @@
 package com.TPC.TPC.model;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.*;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,6 +20,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "tb_users")
 public class Users extends Object{
     
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
@@ -67,5 +69,5 @@ public class Users extends Object{
 
     @NotNull (message = "{users.ativo.notnull}")
     @Column(name = "ativo")
-    private boolean ativo;
+    private char ativo;
 }

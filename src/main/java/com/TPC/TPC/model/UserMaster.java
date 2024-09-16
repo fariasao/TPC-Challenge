@@ -57,5 +57,5 @@ public class UserMaster extends Object{
 
     @NotNull (message = "{usermaster.ativo.notnull}")
     @Column(name = "ativo")
-    private boolean ativo;
+    private char ativo;
 }

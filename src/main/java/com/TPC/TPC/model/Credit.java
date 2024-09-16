@@ -45,5 +45,5 @@ public class Credit extends Object{
 
     @NotNull (message = "{credit.utilizado.notnull}")
     @Column(name = "utilizado")
-    private boolean utilizado;
+    private char utilizado;
 }

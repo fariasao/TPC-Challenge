@@ -2,6 +2,7 @@ package com.TPC.TPC.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -19,6 +20,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "tb_cluster")
 public class Cluster extends Object{
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
@@ -31,7 +33,6 @@ public class Cluster extends Object{
     private String name;
 
     @NotNull (message = "{cluster.descricao.notnull}")
-    @Lob
     @Column(name = "descricao")
     private String descricao;
 }

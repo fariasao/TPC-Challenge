@@ -104,7 +104,7 @@ public class LojaController {
                     loja.setNumero(lojaDetails.getNumero());
                     loja.setComplemento(lojaDetails.getComplemento());
                     loja.setCep(lojaDetails.getCep());
-                    loja.setActive(lojaDetails.isActive());
+                    loja.setActive(lojaDetails.getActive());
                     Loja updatedLoja = lojaRepository.save(loja);
                     return ResponseEntity.ok().body(updatedLoja);
                 }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));

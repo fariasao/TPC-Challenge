@@ -104,7 +104,7 @@ public class ProdutosController {
                     produto.setNome(produtoDetails.getNome());
                     produto.setDescricao(produtoDetails.getDescricao());
                     produto.setValor(produtoDetails.getValor());
-                    produto.setAtivo(produtoDetails.isAtivo());
+                    produto.setAtivo(produtoDetails.getAtivo());
                     Produtos updatedProduto = produtosRepository.save(produto);
                     return ResponseEntity.ok().body(updatedProduto);
                 }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));

@@ -102,7 +102,7 @@ public class CreditController {
                     credit.setValor(creditDetails.getValor());
                     credit.setDataCredito(creditDetails.getDataCredito());
                     credit.setDataExpiracao(creditDetails.getDataExpiracao());
-                    credit.setUtilizado(creditDetails.isUtilizado());
+                    credit.setUtilizado(creditDetails.getUtilizado());
                     Credit updatedCredit = creditRepository.save(credit);
                     return ResponseEntity.ok().body(updatedCredit);
                 }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));

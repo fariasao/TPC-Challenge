@@ -64,5 +64,5 @@ public class UserPDV extends Object{
 
     @NotNull (message = "{userpdv.ativo.notnull}")
     @Column(name = "ativo")
-    private boolean ativo;
+    private char ativo;
 }

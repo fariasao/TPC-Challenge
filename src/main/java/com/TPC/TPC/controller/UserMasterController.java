@@ -104,7 +104,7 @@ public class UserMasterController {
                     userMaster.setEmail(userMasterDetails.getEmail());
                     userMaster.setPassword(userMasterDetails.getPassword());
                     userMaster.setDataRegistro(userMasterDetails.getDataRegistro());
-                    userMaster.setAtivo(userMasterDetails.isAtivo());
+                    userMaster.setAtivo(userMasterDetails.getAtivo());
                     UserMaster updatedUserMaster = userMasterRepository.save(userMaster);
                     return ResponseEntity.ok().body(updatedUserMaster);
                 }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));

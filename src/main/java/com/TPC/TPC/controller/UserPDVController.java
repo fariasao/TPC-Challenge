@@ -105,7 +105,7 @@ public class UserPDVController {
                     userPDV.setEmail(userPDVDetails.getEmail());
                     userPDV.setPassword(userPDVDetails.getPassword());
                     userPDV.setDataRegistro(userPDVDetails.getDataRegistro());
-                    userPDV.setAtivo(userPDVDetails.isAtivo());
+                    userPDV.setAtivo(userPDVDetails.getAtivo());
                     UserPDV updatedUserPDV = userPDVRepository.save(userPDV);
                     return ResponseEntity.ok().body(updatedUserPDV);
                 }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));

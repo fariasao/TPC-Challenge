@@ -106,7 +106,7 @@ public class UsersController {
                     user.setEndereco(userDetails.getEndereco());
                     user.setNumero(userDetails.getNumero());
                     user.setComplemento(userDetails.getComplemento());
-                    user.setAtivo(userDetails.isAtivo());
+                    user.setAtivo(userDetails.getAtivo());
                     final Users updatedUser = usersRepository.save(user);
                     return ResponseEntity.ok(updatedUser);
                 }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));

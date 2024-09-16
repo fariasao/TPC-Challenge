@@ -42,5 +42,5 @@ public class Pontos extends Object{
 
     @NotNull (message = "{pontos.utilizado.notnull}")
     @Column(name = "utilizado")
-    private boolean utilizado;
+    private char utilizado;
 }

@@ -101,7 +101,7 @@ public class CategoriasController {
                 .map(categoria -> {
                     categoria.setNome(categoriaDetails.getNome());
                     categoria.setDescricao(categoriaDetails.getDescricao());
-                    categoria.setAtivo(categoriaDetails.isAtivo());
+                    categoria.setAtivo(categoriaDetails.getAtivo());
                     final Categorias updatedCategoria = categoriasRepository.save(categoria);
                     return ResponseEntity.ok(updatedCategoria);
                 }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));

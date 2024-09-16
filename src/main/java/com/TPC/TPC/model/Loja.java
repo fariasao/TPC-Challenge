@@ -47,5 +47,5 @@ public class Loja extends Object{
     private String cep;
 
     @Column(name = "active")
-    private boolean active;
+    private char active;
 }

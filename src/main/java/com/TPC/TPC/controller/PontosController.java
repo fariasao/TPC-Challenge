@@ -102,7 +102,7 @@ public class PontosController {
                     ponto.setValor(pontosDetails.getValor());
                     ponto.setDataCredito(pontosDetails.getDataCredito());
                     ponto.setDataExpiracao(pontosDetails.getDataExpiracao());
-                    ponto.setUtilizado(pontosDetails.isUtilizado());
+                    ponto.setUtilizado(pontosDetails.getUtilizado());
                     Pontos updatedPontos = pontosRepository.save(ponto);
                     return ResponseEntity.ok().body(updatedPontos);
                 }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));

@@ -13,7 +13,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +25,7 @@ import jakarta.validation.Valid;
 public class ProdutosController {
 
     @Autowired
-    private ProdutosRepository produtosRepository;
+    private ProdutosService produtosService;
 
     // Buscar todos os produtos
     @GetMapping
@@ -41,12 +40,9 @@ public class ProdutosController {
     })
     public Page<Produtos> listarProdutos(
         @RequestParam(required = false) String produtos,
-        @PageableDefault(sort = "valor", direction = Direction.ASC  ) Pageable pageable
+        @PageableDefault(sort = "valor", direction = Direction.ASC) Pageable pageable
     ) {
-        if (produtos != null){
-            return produtosRepository.findByValor(produtos, pageable);
-        }
-        return produtosRepository.findAll(pageable);
+        return produtosService.listarProdutos(produtos, pageable);
     }
 
     // Buscar um produto pelo ID
@@ -60,9 +56,7 @@ public class ProdutosController {
         @ApiResponse(responseCode = "404", description = "Não existe produto com o id informado.", useReturnTypeSchema = false)
     })
     public ResponseEntity<Produtos> getProdutoById(@PathVariable Integer produtoID) {
-        return produtosRepository.findById(produtoID)
-                .map(produto -> ResponseEntity.ok().body(produto))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        return produtosService.getProdutoById(produtoID);
     }
 
     // Criar um novo produto
@@ -73,12 +67,11 @@ public class ProdutosController {
         description = "Cadastra um novo produto a ser vinculado à lojas que o vendem com os dados enviados no corpo da requisição."
     )
     @ApiResponses({ 
-        @ApiResponse(responseCode = "201", description = "Cluster cadastrado com sucesso"),
+        @ApiResponse(responseCode = "201", description = "Produto cadastrado com sucesso"),
         @ApiResponse(responseCode = "400", description = "Validação falhou. Verifique as regras para o corpo da requisição", useReturnTypeSchema = false)
     })
     public ResponseEntity<Produtos> createProduto(@Valid @RequestBody Produtos produto) {
-        Produtos savedProduto = produtosRepository.save(produto);
-        return new ResponseEntity<>(savedProduto, HttpStatus.CREATED);
+        return produtosService.createProduto(produto);
     }
 
     // Atualizar um produto existente
@@ -94,17 +87,7 @@ public class ProdutosController {
         @ApiResponse(responseCode = "404", description = "Não existe produto com o id informado.", useReturnTypeSchema = false)
     })
     public ResponseEntity<Produtos> updateProduto(@PathVariable Integer produtoID, @Valid @RequestBody Produtos produtoDetails) {
-        return produtosRepository.findById(produtoID)
-                .map(produto -> {
-                    produto.setPdvID(produtoDetails.getPdvID());
-                    produto.setCategoriaID(produtoDetails.getCategoriaID());
-                    produto.setNome(produtoDetails.getNome());
-                    produto.setDescricao(produtoDetails.getDescricao());
-                    produto.setValor(produtoDetails.getValor());
-                    produto.setAtivo(produtoDetails.getAtivo());
-                    Produtos updatedProduto = produtosRepository.save(produto);
-                    return ResponseEntity.ok().body(updatedProduto);
-                }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        return produtosService.updateProduto(produtoID, produtoDetails);
     }
 
     // Deletar um produto
@@ -119,10 +102,6 @@ public class ProdutosController {
         @ApiResponse(responseCode = "404", description = "Não existe produto com o id informado.", useReturnTypeSchema = false)
     })
     public ResponseEntity<?> deleteProduto(@PathVariable Integer produtoID) {
-        return produtosRepository.findById(produtoID)
-                .map(produto -> {
-                    produtosRepository.delete(produto);
-                    return ResponseEntity.ok().build();
-                }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        return produtosService.deleteProduto(produtoID);
     }
 }

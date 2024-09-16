@@ -24,7 +24,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "tb_pontos")
 public class Pontos extends Object{
     
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "pointid")
     private Integer pointID;
 
@@ -32,15 +32,15 @@ public class Pontos extends Object{
     @Column(name = "valor")
     private Integer valor;
 
-    @NotNull (message = "{pontos.datacredito.notnull}")
+    @NotNull (message = "{pontos.datacreditado.notnull}")
     @Temporal(TemporalType.DATE)
-    @Column(name = "datacredito")
-    private Date dataCredito;
+    @Column(name = "datacreditado")
+    private Date dataCreditado;
 
     @NotNull (message = "{pontos.dataexpiracao.notnull}")
     @Temporal(TemporalType.DATE)
-    @Column(name = "dataexpiracao")
-    private Date dataExpiracao;
+    @Column(name = "dataexpirado")
+    private Date dataExpirado;
 
     @NotNull (message = "{pontos.utilizado.notnull}")
     @Column(name = "utilizado")

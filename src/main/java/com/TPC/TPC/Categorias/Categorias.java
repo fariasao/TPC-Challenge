@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "tb_categorias")
 public class Categorias extends Object{
 
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "categoriaid")
     private Integer categoriaID;
 

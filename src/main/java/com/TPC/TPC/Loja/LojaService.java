@@ -38,7 +38,7 @@ public class LojaService {
                     loja.setNumero(lojaDetails.getNumero());
                     loja.setComplemento(lojaDetails.getComplemento());
                     loja.setCep(lojaDetails.getCep());
-                    loja.setActive(lojaDetails.getActive());
+                    loja.setAtivo(lojaDetails.getAtivo());
                     Loja updatedLoja = lojaRepository.save(loja);
                     return ResponseEntity.ok(updatedLoja);
                 }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));

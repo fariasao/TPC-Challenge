@@ -1,11 +1,6 @@
 package com.TPC.TPC.Users;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.*;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -23,7 +18,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "tb_users")
 public class Users extends Object{
     
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "usersid")
     private Integer usersID;
 
@@ -50,8 +45,8 @@ public class Users extends Object{
 
     @NotBlank
     @Size(max = 15, message = "{users.telefone.size}")
-    @Column(name = "telefone")
-    private String telefone;
+    @Column(name = "telefone", precision = 11)
+    private Integer telefone;
 
     @NotBlank (message = "{users.endereco.notnull}")
     @Size(max = 255, message = "{users.endereco.size}")
@@ -59,9 +54,9 @@ public class Users extends Object{
     private String endereco;
 
     @NotBlank (message = "{users.numero.notnull}")
-    @Size(max = 50, message = "{users.numero.size}")
+    @Size(message = "{users.numero.size}")
     @Column(name = "numero")
-    private String numero;
+    private Integer numero;
 
     @Size(max = 50, message = "{users.complemento.size}")
     @Column(name = "complemento")

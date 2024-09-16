@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 public class UserCluster extends Object{
     
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "userclusterid")
     private Integer userClusterID;
 

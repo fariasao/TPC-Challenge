@@ -25,7 +25,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "tb_credit_compras")
 public class CreditCompras extends Object{
 
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "creditcompraid")
     private Integer creditCompraID;
     

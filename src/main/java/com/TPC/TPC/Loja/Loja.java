@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "tb_loja")
 public class Loja extends Object{
     
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "pdvid")
     private Integer pdvID;
 
@@ -48,6 +48,6 @@ public class Loja extends Object{
     @Column(name = "cep")
     private String cep;
 
-    @Column(name = "active")
-    private char active;
+    @Column(name = "ativo")
+    private char ativo;
 }

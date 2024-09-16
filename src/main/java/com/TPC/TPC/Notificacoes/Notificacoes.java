@@ -10,7 +10,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
@@ -31,7 +30,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "tb_notificacoes")
 public class Notificacoes extends Object{
     
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "notificacoesid")
     private Integer notificacoesID;
 
@@ -45,7 +44,6 @@ public class Notificacoes extends Object{
     @Column(name = "titulo")
     private String titulo;
 
-    @Lob
     @NotNull (message = "{notificacoes.mensagem.notnull}")
     @Column(name = "mensagem")
     private String mensagem;

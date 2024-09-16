@@ -5,9 +5,10 @@ import com.TPC.TPC.UserMaster.UserMaster;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
@@ -26,7 +27,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "tb_campanhas")
 public class Campanhas extends Object{
     
-    @Id
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "campanhaid")
     private Integer campanhaID;
 
@@ -37,7 +38,7 @@ public class Campanhas extends Object{
 
     @NotNull (message =  "{campanhas.clusterid.notnull}")
     @ManyToOne
-    @JoinColumn(name = "cluesterid", referencedColumnName = "clusterid")
+    @JoinColumn(name = "clusterid", referencedColumnName = "clusterid")
     private Cluster clusterID;
 
     @NotBlank (message =  "{campanhas.titulo.notnull}")
@@ -45,12 +46,10 @@ public class Campanhas extends Object{
     @Column(name = "titulo")
     private String titulo;
 
-    @Lob
     @Column(name = "conteudo")
     private String conteudo;
 
     @NotNull (message =  "{campanhas.descricao.notnull}")
-    @Lob
     @Column(name = "descricao")
     private String descricao;
 

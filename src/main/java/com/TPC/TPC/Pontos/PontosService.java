@@ -15,7 +15,7 @@ public class PontosService {
 
     public Page<Pontos> listarPontos(String pontos, Pageable pageable) {
         if (pontos != null) {
-            return pontosRepository.findByDataCredito(pontos, pageable);
+            return pontosRepository.findByDataCreditado(pontos, pageable);
         }
         return pontosRepository.findAll(pageable);
     }
@@ -35,8 +35,8 @@ public class PontosService {
         return pontosRepository.findById(pointID)
                 .map(ponto -> {
                     ponto.setValor(pontosDetails.getValor());
-                    ponto.setDataCredito(pontosDetails.getDataCredito());
-                    ponto.setDataExpiracao(pontosDetails.getDataExpiracao());
+                    ponto.setDataCreditado(pontosDetails.getDataCreditado());
+                    ponto.setDataExpirado(pontosDetails.getDataExpirado());
                     ponto.setUtilizado(pontosDetails.getUtilizado());
                     Pontos updatedPontos = pontosRepository.save(ponto);
                     return ResponseEntity.ok(updatedPontos);

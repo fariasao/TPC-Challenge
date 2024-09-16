@@ -1,5 +1,6 @@
 package com.TPC.TPC.Compras;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import com.TPC.TPC.Loja.Loja;
@@ -29,7 +30,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "tb_compras")
 public class Compras extends Object{
 
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "compraid")
     private Integer compraID;
 
@@ -43,9 +44,9 @@ public class Compras extends Object{
     @JoinColumn(name = "pdvid", referencedColumnName = "pdvid")
     private Loja pdvID;
 
-    @NotNull (message = "{compras.valor.notnull}")
-    @Column(name = "valor")
-    private double valor;
+    @NotNull(message = "{compras.valor.notnull}")
+    @Column(name = "valor", precision = 15, scale = 2)
+    private BigDecimal valor;
 
     @NotNull (message = "{compras.datacompra.notnull}")
     @Temporal(TemporalType.DATE)

@@ -31,7 +31,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "tb_user_pdv")
 public class UserPDV extends Object{
     
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "userpdvid")
     private Integer userPdvID;
 

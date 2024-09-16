@@ -25,7 +25,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "tb_pontos_compra")
 public class PontosCompra extends Object{
 
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "pontoscompraid")
     private Integer pontosCompraID;
 

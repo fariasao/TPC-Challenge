@@ -27,7 +27,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "tb_usermaster")
 public class UserMaster extends Object{
     
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "masterid")
     private Integer masterID;
 

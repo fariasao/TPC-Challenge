@@ -13,7 +13,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +25,7 @@ import jakarta.validation.Valid;
 public class CreditComprasController {
 
     @Autowired
-    private CreditComprasRepository creditComprasRepository;
+    private CreditComprasService creditComprasService;
 
     // Buscar todas as compras de pontos
     @GetMapping
@@ -43,10 +42,7 @@ public class CreditComprasController {
         @RequestParam(required = false) String creditCompras,
         @PageableDefault(sort = "creditCompraID", direction = Direction.ASC  ) Pageable pageable
     ) {
-        if (creditCompras != null){
-            return creditComprasRepository.findByCreditCompraID(creditCompras, pageable);
-        }
-        return creditComprasRepository.findAll(pageable);
+        return creditComprasService.listarCreditCompras(creditCompras, pageable);
     }
 
     // Buscar uma compra de pontos pelo ID do pedido
@@ -60,9 +56,7 @@ public class CreditComprasController {
         @ApiResponse(responseCode = "404", description = "Não existe relação entre compra e crédito com o id informado.", useReturnTypeSchema = false)
     })
     public ResponseEntity<CreditCompras> getCompraPontosById(@PathVariable Integer creditCompraID) {
-        return creditComprasRepository.findById(creditCompraID)
-                .map(compra -> ResponseEntity.ok().body(compra))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        return creditComprasService.getCreditComprasById(creditCompraID);
     }
 
     // Criar uma nova compra de pontos
@@ -77,8 +71,7 @@ public class CreditComprasController {
         @ApiResponse(responseCode = "400", description = "Validação falhou. Verifique as regras para o corpo da requisição", useReturnTypeSchema = false)
     })
     public ResponseEntity<CreditCompras> createCompraPontos(@Valid @RequestBody CreditCompras compraPontos) {
-        CreditCompras savedCompra = creditComprasRepository.save(compraPontos);
-        return new ResponseEntity<>(savedCompra, HttpStatus.CREATED);
+        return creditComprasService.createCreditCompras(compraPontos);
     }
 
     // Atualizar uma compra de pontos existente
@@ -94,13 +87,7 @@ public class CreditComprasController {
         @ApiResponse(responseCode = "404", description = "Não existe relação entre compra e crédito com o id informado.", useReturnTypeSchema = false)
     })
     public ResponseEntity<CreditCompras> updateCompraPontos(@PathVariable Integer creditCompraID, @Valid @RequestBody CreditCompras compraPontosDetails) {
-        return creditComprasRepository.findById(creditCompraID)
-                .map(compra -> {
-                    compra.setCreditID(compraPontosDetails.getCreditID());
-                    compra.setCompraID(compraPontosDetails.getCompraID());
-                    CreditCompras updatedCompra = creditComprasRepository.save(compra);
-                    return ResponseEntity.ok().body(updatedCompra);
-                }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        return creditComprasService.updateCreditCompras(creditCompraID, compraPontosDetails);
     }
 
     // Deletar uma compra de pontos
@@ -115,10 +102,6 @@ public class CreditComprasController {
         @ApiResponse(responseCode = "404", description = "Não existe relação entre compra e crédito com o id informado.", useReturnTypeSchema = false)
     })
     public ResponseEntity<?> deleteCompraPontos(@PathVariable Integer creditCompraID) {
-        return creditComprasRepository.findById(creditCompraID)
-                .map(compra -> {
-                    creditComprasRepository.delete(compra);
-                    return ResponseEntity.ok().build();
-                }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        return creditComprasService.deleteCreditCompras(creditCompraID);
     }
 }

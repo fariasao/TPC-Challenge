@@ -13,7 +13,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +25,7 @@ import jakarta.validation.Valid;
 public class LojaController {
 
     @Autowired
-    private LojaRepository lojaRepository;
+    private LojaService lojaService;
 
     // Buscar todas as lojas
     @GetMapping
@@ -43,10 +42,7 @@ public class LojaController {
         @RequestParam(required = false) String loja,
         @PageableDefault(sort = "nomeLoja", direction = Direction.ASC  ) Pageable pageable
     ) {
-        if (loja != null){
-            return lojaRepository.findByNomeLoja(loja, pageable);
-        }
-        return lojaRepository.findAll(pageable);
+        return lojaService.listarLojas(loja, pageable);
     }
 
     // Buscar uma loja pelo ID
@@ -60,9 +56,7 @@ public class LojaController {
         @ApiResponse(responseCode = "404", description = "Não existe loja com o id informado.", useReturnTypeSchema = false)
     })
     public ResponseEntity<Loja> getLojaById(@PathVariable Integer pdvID) {
-        return lojaRepository.findById(pdvID)
-                .map(loja -> ResponseEntity.ok().body(loja))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        return lojaService.getLojasById(pdvID);
     }
 
     // Criar uma nova loja
@@ -77,8 +71,7 @@ public class LojaController {
         @ApiResponse(responseCode = "400", description = "Validação falhou. Verifique as regras para o corpo da requisição", useReturnTypeSchema = false)
     })
     public ResponseEntity<Loja> createLoja(@Valid @RequestBody Loja loja) {
-        Loja savedLoja = lojaRepository.save(loja);
-        return new ResponseEntity<>(savedLoja, HttpStatus.CREATED);
+        return lojaService.createLoja(loja);
     }
 
     // Atualizar uma loja existente
@@ -94,17 +87,7 @@ public class LojaController {
         @ApiResponse(responseCode = "404", description = "Não existe loja com o id informado.", useReturnTypeSchema = false)
     })
     public ResponseEntity<Loja> updateLoja(@PathVariable Integer pdvID, @Valid @RequestBody Loja lojaDetails) {
-        return lojaRepository.findById(pdvID)
-                .map(loja -> {
-                    loja.setNomeLoja(lojaDetails.getNomeLoja());
-                    loja.setEndereco(lojaDetails.getEndereco());
-                    loja.setNumero(lojaDetails.getNumero());
-                    loja.setComplemento(lojaDetails.getComplemento());
-                    loja.setCep(lojaDetails.getCep());
-                    loja.setActive(lojaDetails.getActive());
-                    Loja updatedLoja = lojaRepository.save(loja);
-                    return ResponseEntity.ok().body(updatedLoja);
-                }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        return lojaService.updateLoja(pdvID, lojaDetails);
     }
 
     // Deletar uma loja
@@ -118,11 +101,7 @@ public class LojaController {
         @ApiResponse(responseCode = "200", description = "Dados da loja deletados com sucesso."),
         @ApiResponse(responseCode = "404", description = "Não existe loja com o id informado.", useReturnTypeSchema = false)
     })
-    public ResponseEntity<?> deleteLoja(@PathVariable Integer pdvID) {
-        return lojaRepository.findById(pdvID)
-                .map(loja -> {
-                    lojaRepository.delete(loja);
-                    return ResponseEntity.ok().build();
-                }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    public ResponseEntity<?> deletePontos(@PathVariable Integer pdvID) {
+        return lojaService.deleteLoja(pdvID);
     }
 }

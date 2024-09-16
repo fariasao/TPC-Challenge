@@ -1,10 +1,9 @@
-package com.TPC.TPC.Auth;
+package com.TPC.TPC.auth;
 
-import com.TPC.TPC.Users.Users;
 import com.TPC.TPC.Users.UsersRepository;
+import com.TPC.TPC.Users.Users;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -14,12 +13,11 @@ import java.time.ZoneOffset;
 
 @Service
 public class TokenService {
-
-    private final UsersRepository userRepository;
+    private final UsersRepository usersRepository;
     private Algorithm algorithm;
 
-    public TokenService(UsersRepository userRepository, @Value("${jwt.secret}") String secret) {
-        this.userRepository = userRepository;
+    public TokenService(UsersRepository usersRepository, @Value("${jwt.secret}") String secret) {
+        this.usersRepository = usersRepository;
         algorithm = Algorithm.HMAC256(secret);
     }
 
@@ -27,9 +25,9 @@ public class TokenService {
         var expiresAt = LocalDateTime.now().plusHours(1).toInstant(ZoneOffset.ofHours(-3));
 
         String token = JWT.create()
-                .withIssuer("sphere")
+                .withIssuer("TPC")
                 .withSubject(user.getEmail())
-                .withClaim("role", "USER")
+                .withClaim("role", "admin")
                 .withExpiresAt(expiresAt)
                 .sign(algorithm);
 
@@ -38,12 +36,12 @@ public class TokenService {
 
     public Users getUserFromToken(String token) {
         var email =JWT.require(algorithm)
-                .withIssuer("sphere")
+                .withIssuer("TPC")
                 .build()
                 .verify(token)
                 .getSubject();
 
-        return userRepository.findByEmail(email)
+        return usersRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
     }

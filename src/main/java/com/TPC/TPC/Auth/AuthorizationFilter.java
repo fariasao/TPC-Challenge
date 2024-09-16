@@ -1,4 +1,4 @@
-package com.TPC.TPC.Auth;
+package com.TPC.TPC.auth;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -13,13 +13,10 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import com.TPC.TPC.Users.Users;
 
 import java.io.IOException;
-
 import java.util.List;
 
 @Component
 public class AuthorizationFilter extends OncePerRequestFilter {
-
-
     private final TokenService tokenService;
 
     public AuthorizationFilter(TokenService tokenService) {

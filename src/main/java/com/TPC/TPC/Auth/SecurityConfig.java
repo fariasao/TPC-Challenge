@@ -1,4 +1,4 @@
-package com.TPC.TPC.Auth;
+package com.TPC.TPC.auth;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,25 +11,31 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 public class SecurityConfig {
-
     @Bean
-    public SecurityFilterChain config(HttpSecurity http, AuthorizationFilter authorizationFilter) throws Exception {
+    public SecurityFilterChain config(HttpSecurity http, AuthorizationFilter authFilter) throws Exception {
         http.csrf(csrf -> csrf.disable());
+
+        // Autorização de requisições
         http.authorizeHttpRequests(auth ->
                 auth
                         .requestMatchers(HttpMethod.POST, "/login").permitAll()
                         .requestMatchers(HttpMethod.GET, "/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/users").hasAuthority("USER")
+                        .requestMatchers(HttpMethod.POST, "/**").permitAll()
                         .anyRequest().authenticated()
-
         );
-        http.addFilterBefore(authorizationFilter, UsernamePasswordAuthenticationFilter.class);
+
+        // Desabilitar a proteção de frame options para o H2 console
+        http.headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable()));
+
+        // Filtro de autenticação
+        http.addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class);
+
         return http.build();
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
 }
+

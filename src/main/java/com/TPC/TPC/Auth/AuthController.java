@@ -1,12 +1,10 @@
-package com.TPC.TPC.Auth;
+package com.TPC.TPC.auth;
 
+import com.TPC.TPC.Users.UsersRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.TPC.TPC.Users.UsersRepository;
-
 
 @RestController
 public class AuthController {
@@ -27,7 +25,7 @@ public class AuthController {
         var user = usersRepository.findByEmail(credentials.email())
                 .orElseThrow(() -> new RuntimeException("Access Denied"));
 
-        if ( !passwordEncoder.matches(credentials.password(), user.getPassword()) )
+        if ( !passwordEncoder.matches(credentials.senha(), user.getPassword()) )
             throw new RuntimeException("Access Denied");
 
         return tokenService.create(user);

@@ -1,4 +1,5 @@
-package com.TPC.TPC.Auth;
+package com.TPC.TPC.auth;
 
-public record Credentials(String email, String password) {
+public record Credentials(String email, String senha) {
+
 }

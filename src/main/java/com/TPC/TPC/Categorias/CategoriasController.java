@@ -13,7 +13,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +25,7 @@ import jakarta.validation.Valid;
 public class CategoriasController {
 
     @Autowired
-    private CategoriasRepository categoriasRepository;
+    private CategoriasService categoriasService;
 
     // Buscar todas as categorias
     @GetMapping
@@ -43,10 +42,7 @@ public class CategoriasController {
         @RequestParam(required = false) String categorias,
         @PageableDefault(sort = "nome", direction = Direction.ASC  ) Pageable pageable
     ) {
-        if (categorias != null){
-            return categoriasRepository.findByNome(categorias, pageable);
-        }
-        return categoriasRepository.findAll(pageable);
+        return categoriasService.listarCategorias(categorias, pageable);
     }
 
     // Buscar uma categoria pelo ID
@@ -60,9 +56,7 @@ public class CategoriasController {
         @ApiResponse(responseCode = "404", description = "Não existe categoria com o id informado.", useReturnTypeSchema = false)
     })
     public ResponseEntity<Categorias> getCategoriaById(@PathVariable Integer categoriaID) {
-        return categoriasRepository.findById(categoriaID)
-                .map(categoria -> ResponseEntity.ok(categoria))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        return categoriasService.getCategoriaById(categoriaID);
     }
 
     // Criar uma nova categoria
@@ -77,8 +71,7 @@ public class CategoriasController {
         @ApiResponse(responseCode = "400", description = "Validação falhou. Verifique as regras para o corpo da requisição", useReturnTypeSchema = false)
     })
     public ResponseEntity<Categorias> createCategoria(@Valid @RequestBody Categorias categoria) {
-        Categorias savedCategoria = categoriasRepository.save(categoria);
-        return new ResponseEntity<>(savedCategoria, HttpStatus.CREATED);
+        return categoriasService.createCategoria(categoria);
     }
 
     // Atualizar uma categoria existente
@@ -94,14 +87,7 @@ public class CategoriasController {
         @ApiResponse(responseCode = "404", description = "Não existe categoria com o id informado.", useReturnTypeSchema = false)
     })
     public ResponseEntity<Categorias> updateCategoria(@PathVariable Integer categoriaID, @Valid @RequestBody Categorias categoriaDetails) {
-        return categoriasRepository.findById(categoriaID)
-                .map(categoria -> {
-                    categoria.setNome(categoriaDetails.getNome());
-                    categoria.setDescricao(categoriaDetails.getDescricao());
-                    categoria.setAtivo(categoriaDetails.getAtivo());
-                    final Categorias updatedCategoria = categoriasRepository.save(categoria);
-                    return ResponseEntity.ok(updatedCategoria);
-                }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        return categoriasService.updateCategorias(categoriaID, categoriaDetails);
     }
 
     // Deletar uma categoria
@@ -116,10 +102,6 @@ public class CategoriasController {
         @ApiResponse(responseCode = "404", description = "Não existe categoria com o id informado.", useReturnTypeSchema = false)
     })
     public ResponseEntity<?> deleteCategoria(@PathVariable Integer categoriaID) {
-        return categoriasRepository.findById(categoriaID)
-                .map(categoria -> {
-                    categoriasRepository.delete(categoria);
-                    return ResponseEntity.ok().build();
-                }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        return categoriasService.deleteCategoria(categoriaID);
     }
 }

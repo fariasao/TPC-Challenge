@@ -13,7 +13,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +25,7 @@ import jakarta.validation.Valid;
 public class UserPDVController {
 
     @Autowired
-    private UserPDVRepository userPDVRepository;
+    private UserPDVService userPDVService;
 
     // Buscar todos os usuários PDV
     @GetMapping
@@ -41,12 +40,9 @@ public class UserPDVController {
     })
     public Page<UserPDV> listarUserPDV(
         @RequestParam(required = false) String userPDV,
-        @PageableDefault(sort = "nome", direction = Direction.ASC  ) Pageable pageable
+        @PageableDefault(sort = "nome", direction = Direction.ASC) Pageable pageable
     ) {
-        if (userPDV != null){
-            return userPDVRepository.findByNome(userPDV, pageable);
-        }
-        return userPDVRepository.findAll(pageable);
+        return userPDVService.listarUserPDV(userPDV, pageable);
     }
 
     // Buscar um usuário PDV pelo ID
@@ -60,9 +56,7 @@ public class UserPDVController {
         @ApiResponse(responseCode = "404", description = "Não existe usuário cadastrado em loja com o id informado.", useReturnTypeSchema = false)
     })
     public ResponseEntity<UserPDV> getUserPDVById(@PathVariable Integer userPdvID) {
-        return userPDVRepository.findById(userPdvID)
-                .map(userPDV -> ResponseEntity.ok().body(userPDV))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        return userPDVService.getUserPDVById(userPdvID);
     }
 
     // Criar um novo usuário PDV
@@ -77,8 +71,7 @@ public class UserPDVController {
         @ApiResponse(responseCode = "400", description = "Validação falhou. Verifique as regras para o corpo da requisição", useReturnTypeSchema = false)
     })
     public ResponseEntity<UserPDV> createUserPDV(@Valid @RequestBody UserPDV userPDV) {
-        UserPDV savedUserPDV = userPDVRepository.save(userPDV);
-        return new ResponseEntity<>(savedUserPDV, HttpStatus.CREATED);
+        return userPDVService.createUserPDV(userPDV);
     }
 
     // Atualizar um usuário PDV existente
@@ -94,18 +87,7 @@ public class UserPDVController {
         @ApiResponse(responseCode = "404", description = "Não existe usuário cadastrado em loja com o id informado.", useReturnTypeSchema = false)
     })
     public ResponseEntity<UserPDV> updateUserPDV(@PathVariable Integer userPdvID, @Valid @RequestBody UserPDV userPDVDetails) {
-        return userPDVRepository.findById(userPdvID)
-                .map(userPDV -> {
-                    userPDV.setPdvID(userPDVDetails.getPdvID());
-                    userPDV.setNome(userPDVDetails.getNome());
-                    userPDV.setSobrenome(userPDVDetails.getSobrenome());
-                    userPDV.setEmail(userPDVDetails.getEmail());
-                    userPDV.setPassword(userPDVDetails.getPassword());
-                    userPDV.setDataRegistro(userPDVDetails.getDataRegistro());
-                    userPDV.setAtivo(userPDVDetails.getAtivo());
-                    UserPDV updatedUserPDV = userPDVRepository.save(userPDV);
-                    return ResponseEntity.ok().body(updatedUserPDV);
-                }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        return userPDVService.updateUserPDV(userPdvID, userPDVDetails);
     }
 
     // Deletar um usuário PDV
@@ -120,10 +102,6 @@ public class UserPDVController {
         @ApiResponse(responseCode = "404", description = "Não existe usuário cadastrado em loja com o id informado.", useReturnTypeSchema = false)
     })
     public ResponseEntity<?> deleteUserPDV(@PathVariable Integer userPdvID) {
-        return userPDVRepository.findById(userPdvID)
-                .map(userPDV -> {
-                    userPDVRepository.delete(userPDV);
-                    return ResponseEntity.ok().build();
-                }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        return userPDVService.deleteUserPDV(userPdvID);
     }
 }

@@ -13,7 +13,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +25,7 @@ import jakarta.validation.Valid;
 public class CampanhasController {
 
     @Autowired
-    private CampanhasRepository campanhasRepository;
+    private CampanhasService campanhasService;
 
     // Buscar todas as campanhas
     @GetMapping
@@ -43,10 +42,7 @@ public class CampanhasController {
         @RequestParam(required = false) String campanha,
         @PageableDefault(sort = "titulo", direction = Direction.ASC  ) Pageable pageable
     ) {
-        if (campanha != null){
-            return campanhasRepository.findByTitulo(campanha, pageable);
-        }
-        return campanhasRepository.findAll(pageable);
+        return campanhasService.listarCampanhas(campanha, pageable);
     }
 
     // Buscar uma campanha pelo ID
@@ -60,9 +56,7 @@ public class CampanhasController {
         @ApiResponse(responseCode = "404", description = "Não existe campanha com o id informado.", useReturnTypeSchema = false)
     })
     public ResponseEntity<Campanhas> getCampanhaById(@PathVariable Integer campanhaID) {
-        return campanhasRepository.findById(campanhaID)
-                .map(campanha -> ResponseEntity.ok(campanha))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        return campanhasService.getCampanhaById(campanhaID);
     }
 
     // Criar uma nova campanha
@@ -77,8 +71,7 @@ public class CampanhasController {
         @ApiResponse(responseCode = "400", description = "Validação falhou. Verifique as regras para o corpo da requisição", useReturnTypeSchema = false)
     })
     public ResponseEntity<Campanhas> createCampanha(@Valid @RequestBody Campanhas campanha) {
-        Campanhas savedCampanha = campanhasRepository.save(campanha);
-        return new ResponseEntity<>(savedCampanha, HttpStatus.CREATED);
+        return campanhasService.createCampanha(campanha);
     }
 
     // Atualizar uma campanha existente
@@ -94,17 +87,7 @@ public class CampanhasController {
         @ApiResponse(responseCode = "404", description = "Não existe campanha com o id informado.", useReturnTypeSchema = false)
     })
     public ResponseEntity<Campanhas> updateCampanha(@PathVariable Integer campanhaID, @Valid @RequestBody Campanhas campanhaDetails) {
-        return campanhasRepository.findById(campanhaID)
-                .map(campanha -> {
-                    campanha.setMasterID(campanhaDetails.getMasterID());
-                    campanha.setClusterID(campanhaDetails.getClusterID());
-                    campanha.setTitulo(campanhaDetails.getTitulo());
-                    campanha.setConteudo(campanhaDetails.getConteudo());
-                    campanha.setDescricao(campanhaDetails.getDescricao());
-                    campanha.setCanalTipo(campanhaDetails.getCanalTipo());
-                    final Campanhas updatedCampanha = campanhasRepository.save(campanha);
-                    return ResponseEntity.ok(updatedCampanha);
-                }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        return campanhasService.updateCampanha(campanhaID, campanhaDetails);
     }
 
     // Deletar uma campanha
@@ -119,10 +102,6 @@ public class CampanhasController {
         @ApiResponse(responseCode = "404", description = "Não existe campanha com o id informado.", useReturnTypeSchema = false)
     })
     public ResponseEntity<?> deleteCampanha(@PathVariable Integer campanhaID) {
-        return campanhasRepository.findById(campanhaID)
-                .map(campanha -> {
-                    campanhasRepository.delete(campanha);
-                    return ResponseEntity.ok().build();
-                }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        return campanhasService.deletePontos(campanhaID);
     }
 }

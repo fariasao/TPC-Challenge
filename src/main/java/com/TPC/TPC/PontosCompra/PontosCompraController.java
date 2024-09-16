@@ -8,22 +8,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+
 import jakarta.validation.Valid;
 
 @RestController
@@ -31,9 +23,9 @@ import jakarta.validation.Valid;
 @CacheConfig(cacheNames = "pontoscompras")
 @Tag(name = "Pontos-Compras", description = "Relação entre pontos e compras.")
 public class PontosCompraController {
-    
+
     @Autowired
-    private PontosCompraRepository pontosComprasRepository;
+    private PontosCompraService pontosCompraService;
 
     // Buscar todas as compras de pontos
     @GetMapping
@@ -48,12 +40,9 @@ public class PontosCompraController {
     })
     public Page<PontosCompra> listarPontosCompra(
         @RequestParam(required = false) String pontosCompra,
-        @PageableDefault(sort = "pontosCompraID", direction = Direction.ASC  ) Pageable pageable
+        @PageableDefault(sort = "pontosCompraID", direction = Direction.ASC) Pageable pageable
     ) {
-        if (pontosCompra != null){
-            return pontosComprasRepository.findByPontosCompraID(pontosCompra, pageable);
-        }
-        return pontosComprasRepository.findAll(pageable);
+        return pontosCompraService.listarPontosCompra(pontosCompra, pageable);
     }
 
     // Buscar uma compra de pontos pelo ID do pedido
@@ -67,9 +56,7 @@ public class PontosCompraController {
         @ApiResponse(responseCode = "404", description = "Não existe relação entre ponto e compra com o id informado.", useReturnTypeSchema = false)
     })
     public ResponseEntity<PontosCompra> getCompraPontosById(@PathVariable Integer pontosCompraID) {
-        return pontosComprasRepository.findById(pontosCompraID)
-                .map(compra -> ResponseEntity.ok().body(compra))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        return pontosCompraService.getCompraPontosById(pontosCompraID);
     }
 
     // Criar uma nova compra de pontos
@@ -84,8 +71,7 @@ public class PontosCompraController {
         @ApiResponse(responseCode = "400", description = "Validação falhou. Verifique as regras para o corpo da requisição", useReturnTypeSchema = false)
     })
     public ResponseEntity<PontosCompra> createCompraPontos(@Valid @RequestBody PontosCompra pontosCompra) {
-        PontosCompra savedCompra = pontosComprasRepository.save(pontosCompra);
-        return new ResponseEntity<>(savedCompra, HttpStatus.CREATED);
+        return pontosCompraService.createCompraPontos(pontosCompra);
     }
 
     // Atualizar uma compra de pontos existente
@@ -101,13 +87,7 @@ public class PontosCompraController {
         @ApiResponse(responseCode = "404", description = "Não existe relação entre ponto e compra com o id informado.", useReturnTypeSchema = false)
     })
     public ResponseEntity<PontosCompra> updateCompraPontos(@PathVariable Integer pontosCompraID, @Valid @RequestBody PontosCompra pontosCompraDetails) {
-        return pontosComprasRepository.findById(pontosCompraID)
-                .map((PontosCompra compra) -> {
-                    compra.setCompraID(pontosCompraDetails.getCompraID());
-                    compra.setPointID(pontosCompraDetails.getPointID());
-                    PontosCompra updatedCompra = pontosComprasRepository.save(compra);
-                    return ResponseEntity.ok().body(updatedCompra);
-                }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        return pontosCompraService.updateCompraPontos(pontosCompraID, pontosCompraDetails);
     }
 
     // Deletar uma compra de pontos
@@ -122,10 +102,6 @@ public class PontosCompraController {
         @ApiResponse(responseCode = "404", description = "Não existe relação entre ponto e compra com o id informado.", useReturnTypeSchema = false)
     })
     public ResponseEntity<?> deleteCompraPontos(@PathVariable Integer pontosCompraID) {
-        return pontosComprasRepository.findById(pontosCompraID)
-                .map(compra -> {
-                    pontosComprasRepository.delete(compra);
-                    return ResponseEntity.ok().build();
-                }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        return pontosCompraService.deleteCompraPontos(pontosCompraID);
     }
 }

@@ -1,10 +1,5 @@
 package com.TPC.TPC.Pontos;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.tags.Tag;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
@@ -13,9 +8,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 import jakarta.validation.Valid;
 
@@ -26,7 +25,7 @@ import jakarta.validation.Valid;
 public class PontosController {
 
     @Autowired
-    private PontosRepository pontosRepository;
+    private PontosService pontosService;
 
     // Buscar todos os registros de pontos
     @GetMapping
@@ -43,10 +42,7 @@ public class PontosController {
         @RequestParam(required = false) String pontos,
         @PageableDefault(sort = "dataCredito", direction = Direction.ASC  ) Pageable pageable
     ) {
-        if (pontos != null){
-            return pontosRepository.findByDataCredito(pontos, pageable);
-        }
-        return pontosRepository.findAll(pageable);
+        return pontosService.listarPontos(pontos, pageable);
     }
     
     // Buscar um registro de pontos pelo ID
@@ -60,9 +56,7 @@ public class PontosController {
         @ApiResponse(responseCode = "404", description = "Não existe quantidade de pontos com o id informado.", useReturnTypeSchema = false)
     })
     public ResponseEntity<Pontos> getPontosById(@PathVariable Integer pointID) {
-        return pontosRepository.findById(pointID)
-                .map(ponto -> ResponseEntity.ok().body(ponto))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        return pontosService.getPontosById(pointID);
     }
 
     // Criar um novo registro de pontos
@@ -77,8 +71,7 @@ public class PontosController {
         @ApiResponse(responseCode = "400", description = "Validação falhou. Verifique as regras para o corpo da requisição", useReturnTypeSchema = false)
     })
     public ResponseEntity<Pontos> createPontos(@Valid @RequestBody Pontos ponto) {
-        Pontos savedPontos = pontosRepository.save(ponto);
-        return new ResponseEntity<>(savedPontos, HttpStatus.CREATED);
+        return pontosService.createPontos(ponto);
     }
 
     // Atualizar um registro de pontos existente
@@ -94,15 +87,7 @@ public class PontosController {
         @ApiResponse(responseCode = "404", description = "Não existe quantidade de pontos com o id informado.", useReturnTypeSchema = false)
     })
     public ResponseEntity<Pontos> updatePontos(@PathVariable Integer pointID, @Valid @RequestBody Pontos pontosDetails) {
-        return pontosRepository.findById(pointID)
-                .map(ponto -> {
-                    ponto.setValor(pontosDetails.getValor());
-                    ponto.setDataCredito(pontosDetails.getDataCredito());
-                    ponto.setDataExpiracao(pontosDetails.getDataExpiracao());
-                    ponto.setUtilizado(pontosDetails.getUtilizado());
-                    Pontos updatedPontos = pontosRepository.save(ponto);
-                    return ResponseEntity.ok().body(updatedPontos);
-                }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        return pontosService.updatePontos(pointID, pontosDetails);
     }
 
     // Deletar um registro de pontos
@@ -117,10 +102,6 @@ public class PontosController {
         @ApiResponse(responseCode = "404", description = "Não existe quantidade de pontos com o id informado.", useReturnTypeSchema = false)
     })
     public ResponseEntity<?> deletePontos(@PathVariable Integer pointID) {
-        return pontosRepository.findById(pointID)
-                .map(ponto -> {
-                    pontosRepository.delete(ponto);
-                    return ResponseEntity.ok().build();
-                }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        return pontosService.deletePontos(pointID);
     }
 }

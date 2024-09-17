@@ -25,7 +25,7 @@ public class AuthController {
         var user = usersRepository.findByEmail(credentials.email())
                 .orElseThrow(() -> new RuntimeException("Access Denied"));
 
-        if ( !passwordEncoder.matches(credentials.senha(), user.getPassword()) )
+        if ( !passwordEncoder.matches(credentials.password(), user.getPassword()) )
             throw new RuntimeException("Access Denied");
 
         return tokenService.create(user);

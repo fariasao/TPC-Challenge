@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "tb_users")
 public class Users extends Object{
     
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "usersid")
     private Integer usersID;
 
@@ -46,7 +46,7 @@ public class Users extends Object{
     @NotBlank
     @Size(max = 15, message = "{users.telefone.size}")
     @Column(name = "telefone", precision = 11)
-    private Integer telefone;
+    private String telefone;
 
     @NotBlank (message = "{users.endereco.notnull}")
     @Size(max = 255, message = "{users.endereco.size}")
@@ -56,7 +56,7 @@ public class Users extends Object{
     @NotBlank (message = "{users.numero.notnull}")
     @Size(message = "{users.numero.size}")
     @Column(name = "numero")
-    private Integer numero;
+    private String numero;
 
     @Size(max = 50, message = "{users.complemento.size}")
     @Column(name = "complemento")

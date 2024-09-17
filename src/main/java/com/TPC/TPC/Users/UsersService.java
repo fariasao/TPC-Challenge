@@ -3,6 +3,7 @@ package com.TPC.TPC.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -12,6 +13,8 @@ public class UsersService {
 
     @Autowired
     private UsersRepository usersRepository;
+    @Autowired
+    private PasswordEncoder PasswordEncoder;
 
     public Page<Users> listarUsers(String user, Pageable pageable) {
         if (user != null) {
@@ -25,6 +28,7 @@ public class UsersService {
     }
 
     public Users createUser(Users user) {
+        user.setPassword(PasswordEncoder.encode(user.getPassword()));
         return usersRepository.save(user);
     }
 
@@ -33,7 +37,7 @@ public class UsersService {
             user.setNome(userDetails.getNome());
             user.setSobrenome(userDetails.getSobrenome());
             user.setEmail(userDetails.getEmail());
-            user.setPassword(userDetails.getPassword());
+            user.setPassword(PasswordEncoder.encode(userDetails.getPassword()));
             user.setTelefone(userDetails.getTelefone());
             user.setEndereco(userDetails.getEndereco());
             user.setNumero(userDetails.getNumero());

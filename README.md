@@ -31,14 +31,12 @@
 
 ### Acesso ao Banco de Dados
 
-1. **Acessando o Console do H2**:
-    - Com a aplicação em execução, abra um navegador web e acesse **`http://localhost:8080/h2-console`** para abrir o console do banco de dados H2.
-    - Na página de login do console H2, você precisará configurar a conexão JDBC para acessar o banco de dados em memória:
-        - **JDBC URL**: Substitua a URL padrão pela URL específica do projeto: **`jdbc:h2:mem:tpcjava`**. Isso conectará ao banco de dados em memória denominado **`tpcjava`** que é configurado automaticamente quando a aplicação é iniciada.
-        - **Usuário** e **Senha**: Se configurado, use as credenciais apropriadas. Para muitas configurações padrão do H2, a senha pode ser deixada em branco.
+1. **Acessando o Oracle**:
+    - Com a aplicação em execução, abra o SQL Developer e insira as credenciais necessarias, e rode o script sql no seu banco
+    - volte no arquivo application.properties do projeto e atualize com as suas credenciais
 2. **Interagindo com o Banco de Dados**:
-    - Dentro do console H2, você pode executar comandos SQL para consultar ou modificar dados. Por exemplo, após fazer mudanças via sua aplicação, você pode verificar os efeitos dessas mudanças no banco de dados executando um comando **`SELECT`** apropriado.
-    - Use a área de consulta SQL no console H2 para inserir, atualizar, ou deletar dados manualmente, o que pode ser útil para testes rápidos ou manipulação de dados durante o desenvolvimento.
+    - Dentro do oracle, você pode executar comandos SQL para consultar ou modificar dados. Por exemplo, após fazer mudanças via sua aplicação, você pode verificar os efeitos dessas mudanças no banco de dados executando um comando **`SELECT`** apropriado.
+    - Use a área de consulta no Oracle para inserir, atualizar, ou deletar dados manualmente, o que pode ser útil para testes rápidos ou manipulação de dados durante o desenvolvimento.
 
 **Utilização da API**
 

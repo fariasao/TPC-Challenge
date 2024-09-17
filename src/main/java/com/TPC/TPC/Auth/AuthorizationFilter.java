@@ -1,4 +1,4 @@
-package com.TPC.TPC.auth;
+package com.TPC.TPC.Auth;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

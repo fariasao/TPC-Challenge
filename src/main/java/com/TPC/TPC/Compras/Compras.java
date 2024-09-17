@@ -30,7 +30,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "tb_compras")
 public class Compras extends Object{
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "compraid")
     private Integer compraID;
 

@@ -30,7 +30,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "tb_notificacoes")
 public class Notificacoes extends Object{
     
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "notificacoesid")
     private Integer notificacoesID;
 

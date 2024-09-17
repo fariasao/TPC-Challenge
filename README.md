@@ -3,7 +3,6 @@
 ## Sumário
 - [Integrantes;](#integrantes)
 - [Documentação completa;](#documentação-completa)
-- [Cronograma das sprints;](#cronograma-das-sprints)
 - [Instruções para uso da aplicação;](#instruções-para-uso-da-aplicação)
 - [Imagem dos diagramas de classe;](#imagem-dos-diagramas-de-classe)
 - [Link para vídeo com a proposta tecnológica;](#link-para-vídeo-com-a-proposta-tecnológica)
@@ -19,13 +18,6 @@
 
 ## Documentação completa
 [PDF com a documentação completa.](TPC_JavaAdvanced_1stSprint.pdf)
-
-## Cronograma das Sprints
-### Primeira Sprint
-![Primeira Sprint](./images/Cronograma1stSprint.png)
-### Segunda Sprint
-![Segunda Sprint](./images/Cronograma2ndSprint.png)
-[Link para o arquivo completo.](Cronograma_TPC_Challenge.xlsx)
 
 ## Instruções para uso da aplicação
 ### Iniciando a Aplicação

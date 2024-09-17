@@ -1,4 +1,4 @@
-package com.TPC.TPC.auth;
+package com.TPC.TPC.Auth;
 
 import com.TPC.TPC.Users.UsersRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;

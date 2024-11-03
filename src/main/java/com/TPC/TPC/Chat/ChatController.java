@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ChatController {
 
     private final ChatService chatService;
+    private final EmailService emailService;
 
-    public ChatController(ChatService chatService) {
+    public ChatController(ChatService chatService, EmailService emailService) {
         this.chatService = chatService;
+        this.emailService = emailService;
     }
 
     @GetMapping
@@ -29,6 +31,11 @@ public class ChatController {
         String response = chatService.sendToAi(message.getContent());
         message.setResponse(response);
         model.addAttribute("message", message);
+
+        if (response != null && !response.isEmpty() && message.getEmail() != null && !message.getEmail().isEmpty()) {
+            emailService.sendEmail(message.getEmail(), "Resposta do Assistente", response);
+        }
+
         return "chat";
     }
 }

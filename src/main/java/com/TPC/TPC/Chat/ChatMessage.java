@@ -3,6 +3,7 @@ package com.TPC.TPC.Chat;
 public class ChatMessage {
     private String content;
     private String response;
+    private String email;
 
     // Getters e Setters
     public String getContent() {
@@ -19,5 +20,13 @@ public class ChatMessage {
 
     public void setResponse(String response) {
         this.response = response;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

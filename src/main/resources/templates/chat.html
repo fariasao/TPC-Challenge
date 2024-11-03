@@ -61,6 +61,13 @@
 
         <form th:id="chatForm" th:action="@{/chat}" th:object="${message}" method="post">
             <div class="field">
+                <label class="label">Email</label>
+                <div class="control">
+                    <input id="emailInput" class="input" type="email" th:field="*{email}" placeholder="Digite seu email" required>
+                </div>
+            </div>
+            
+            <div class="field">
                 <label class="label">Mensagem</label>
                 <div class="control">
                     <textarea id="messageInput" class="textarea" th:field="*{content}" placeholder="Digite sua mensagem..."></textarea>

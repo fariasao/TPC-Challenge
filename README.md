@@ -16,8 +16,13 @@
 - Guilherme Tantulli - RM97890 (Responsável por atuar em Compliance & Quality Assurance, Advanced Business Development with .NET e Mobile App Development);
 - Thiago Zupelli - RM99085 (Responsável por atuar em Disruptive Architectures, Advanced Business Development with .NET, Java Advanced e Mastering Relational and Non-Relational Database).
 
+## Link para vídeo com a proposta tecnológica
+[![Vídeo TPC](http://img.youtube.com/vi/3V5XxM7scrQ/0.jpg)](https://youtu.be/a1lTrplmlJI).
+
 ## Documentação completa
 [PDF com a documentação completa.](TPC_JavaAdvanced_1stSprint.pdf)
+
+
 
 ## Instruções para uso da aplicação
 ### Iniciando a Aplicação

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import io.github.cdimascio.dotenv.Dotenv;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.annotations.info.Info;
@@ -25,6 +26,9 @@ import io.swagger.v3.oas.annotations.info.Info;
 public class TpcApplication {
 
 	public static void main(String[] args) {
+		Dotenv dotenv = Dotenv.configure().load();
+		System.setProperty("OPEN_AI_API_KEY", dotenv.get("OPEN_AI_API_KEY"));
+
 		SpringApplication.run(TpcApplication.class, args);
 	}
 

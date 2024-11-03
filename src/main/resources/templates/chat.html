@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Reconhecimento de Consumo e Cashback - Assistente de Compras Personalizado</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css">
+    <script>
+        // Função para iniciar o reconhecimento de voz
+        function startRecognition() {
+            const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+            recognition.lang = 'pt-BR'; // Define o idioma
+            recognition.interimResults = false; // Apenas resultados finais
+            recognition.maxAlternatives = 1; // Apenas a primeira alternativa
+
+            recognition.onresult = function(event) {
+                const transcript = event.results[0][0].transcript; // Captura a transcrição
+                document.getElementById('messageInput').value = transcript; // Coloca a transcrição no campo de texto
+                document.getElementById('chatForm').submit(); // Envia o formulário
+            };
+
+            recognition.onerror = function(event) {
+                console.error('Erro no reconhecimento: ', event.error);
+            };
+
+            recognition.start(); // Inicia o reconhecimento
+        }
+
+        // Função para sintetizar a resposta em partes
+        function speakResponse(response) {
+            const utterance = new SpeechSynthesisUtterance();
+            utterance.lang = 'pt-BR'; // Define o idioma
+
+            // Divide a resposta em partes
+            const sentences = response.split('.'); // Divide por ponto (ou outra lógica que você desejar)
+            let currentIndex = 0;
+
+            function speakNext() {
+                if (currentIndex < sentences.length) {
+                    utterance.text = sentences[currentIndex].trim();
+                    currentIndex++;
+
+                    utterance.onend = speakNext; // Chama a próxima parte ao fim da atual
+                    window.speechSynthesis.speak(utterance); // Fala a parte atual
+                }
+            }
+
+            speakNext(); // Inicia o processo de fala
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const responseElement = document.getElementById('response');
+            if (responseElement && responseElement.innerText) {
+                speakResponse(responseElement.innerText); // resposta do assistente
+            }
+        });
+    </script>
+</head>
+<body>
+<section class="section">
+    <div class="container">
+        <h1 class="title">Reconhecimento de Consumo e Cashback - Assistente de Compras Personalizado</h1>
+
+        <form th:id="chatForm" th:action="@{/chat}" th:object="${message}" method="post">
+            <div class="field">
+                <label class="label">Mensagem</label>
+                <div class="control">
+                    <textarea id="messageInput" class="textarea" th:field="*{content}" placeholder="Digite sua mensagem..."></textarea>
+                </div>
+            </div>
+
+            <div class="field">
+                <div class="control">
+                    <button class="button is-primary" type="submit">Enviar</button>
+                    <button class="button is-info" type="button" onclick="startRecognition()">Falar</button>
+                </div>
+            </div>
+        </form>
+
+        <div class="box" th:if="${message.response}">
+            <p><strong>Resposta do LesSoft:</strong></p>
+            <p id="response" th:text="${message.response}"></p>
+        </div>
+    </div>
+</section>
+</body>
+</html>
